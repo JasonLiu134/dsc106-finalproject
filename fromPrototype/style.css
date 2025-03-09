@@ -1,0 +1,38 @@
+h1 {
+  text-align: center;
+}
+
+p {
+  font-size: 18px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+h2 {
+  text-align: center;
+}
+* {box-sizing:border-box}
+
+.sliders {
+  width: 25%;
+  border: 2px solid black;
+  text-align: center;
+  margin-left: 35%;
+}
+
+.output {
+  width: 25%;
+  border: 2px solid black;
+  text-align: center;
+  margin-left: 35%;
+  margin-top: 10px;
+  padding: 1em;
+}
+
+.chart-container {
+  margin-left: 28.5%;
+}
+
+img {
+  margin-left: 15%;
+}

@@ -1,0 +1,54 @@
+.rectangle {
+    width: 200px; 
+    height: 200px;
+    background-color: #af4c4c; 
+    border: 2px solid #333;
+}
+
+.largerectangle {
+    opacity: 0%;
+    width: 10%; 
+    height: 100000%;
+    border: 2px solid #333;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.pages {
+    margin-top: 10%;
+    position: absolute;
+}
+
+.itembox {
+    margin-left: 30%;
+    display: flex;
+    align-items: center;
+    gap: 30%;
+}
+
+p {
+    max-width: 20%;
+}
+
+#page2 {
+    display: none;
+}
+
+#page3 {
+    display: none;
+}
+
+#page4 {
+    display: none;
+}
+
+.scroll-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    opacity: 0%;
+    z-index: 10;
+}

@@ -6,6 +6,7 @@
     <title>Document</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="global.js"></script>
+    <script src="visualization.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,7 +14,6 @@
         <div class="largerectangle"></div>
     </div>
     <div id="page1" class="pages">
-        <hr width="100%" size="2" noshade>
         <h1>Page 1</h1>
         <h2>Page 1 Info</h2>
         <div class="itembox">
@@ -23,9 +23,10 @@
                 sed itaque sunt aut numquam illo qui galisum vitae in nisi itaque. Ad nobis quia qui galisum 
                 quasi hic consequatur voluptatum.
             </p>
-            <div class="rectangle"></div>
+            <div class="matrixcontainer">
+                <div id="corrmatrix"></div>
+            </div>
         </div>
-        <hr width="100%" size="2" noshade>
     </div>
 
     <div id="page2" class="pages">
@@ -62,18 +63,31 @@
 
     <div id="page4" class="pages">
         <hr width="100%" size="2" noshade>
-        <h1>Page 4</h1>
-        <h2>Page 4 Info</h2>
+        <h1>Final Results</h1>
+        <h2>Interactive Predictor</h2>
         <div class="itembox">
-            <p>
-                Some Captions Here: Lorem ipsum dolor sit amet. Aut magni facere est impedit suscipit 
-                qui enim dolore qui voluptas eligendi. Aut deserunt nihil aut nisi error qui quasi sunt 
-                sed itaque sunt aut numquam illo qui galisum vitae in nisi itaque. Ad nobis quia qui galisum 
-                quasi hic consequatur voluptatum.
-            </p>
-            <div class="rectangle"></div>
+            <div class="sliders">
+                <label>Preoperative Glucose (mg/dL): <span id="glucoseVal">100</span></label>
+                <input type="range" id="glucose" min="50" max="300" value="100" step="1">
+          
+                <label>Preoperative Albumin (g/dL): <span id="albuminVal">4.0</span></label>
+                <input type="range" id="albumin" min="2.0" max="5.0" value="4.0" step="0.1">
+          
+                <label>Preoperative ALT (IU/L): <span id="altVal">30</span></label>
+                <input type="range" id="alt" min="10" max="100" value="30" step="1">
+              </div>
+              
+              <div class="chart-container">
+                <div id="fin"></div>
+                <div class="output">
+                    <strong>Predicted ICU Stay:</strong> <span id="icuPred">3</span> days
+                </div>
+              </div>
+        
         </div>
         <hr width="100%" size="2" noshade>
     </div>
+
+    
 </body>
 </html>

@@ -18,18 +18,20 @@ h1, h2 {
 
 .pages {
     margin-top: 10%;
-    position: absolute;
+    position: relative;
 }
 
 .itembox {
     margin-left: 30%;
     display: flex;
     align-items: center;
-    gap: 30%;
+    gap: 10%;
 }
 
 p {
     max-width: 20%;
+    border: 2px solid #333;
+    padding: 1em;
 }
 
 #page2 {
@@ -51,4 +53,30 @@ p {
     overflow: scroll;
     opacity: 0%;
     z-index: 10;
+}
+
+.sliders {
+    display: grid;
+    width: 30%;
+    border: 2px solid black;
+    z-index: 11;
+    padding: 2em;
+    text-align: center;
+}
+  
+.output {
+    width: 50%;
+    border: 2px solid black;
+    text-align: center;
+    padding: 1em;
+}
+
+.chart-container {
+    width: 50%;
+    align-items: center;
+}
+
+.matrixcontainer {
+    width: 100%;
+    height: 100%;
 }

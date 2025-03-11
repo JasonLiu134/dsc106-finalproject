@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Final Project: A Dive into Surgery Statistics</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="global.js"></script>
-    <script src="visualization.js"></script>
-    <script src="page2.js"></script>
+    <script type="module" src="global.js"></script>
+    <script type="module" src="corrmatrix.js"></script>
+    <script type="module" src="barcharts.js"></script>
+    <script type="module" src="finalvis.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,15 +16,42 @@
         <div class="largerectangle"></div>
     </div>
     <div id="page1" class="pages">
-        <h1>Page 1</h1>
-        <h2>Page 1 Info</h2>
+        <h1>Initial Exploration</h1>
+        <dl id="corr-tooltip" class="tooltip">
+            <dt>Correlation</dt>
+            <dd>
+            <a id="corrs"></a>
+            </dd>
+        
+            <dt>Value</dt>
+            <dd id="corr-value"></dd>
+        </dl>
         <div class="itembox">
-            <p>
-                Some Captions Here: Lorem ipsum dolor sit amet. Aut magni facere est impedit suscipit 
-                qui enim dolore qui voluptas eligendi. Aut deserunt nihil aut nisi error qui quasi sunt 
-                sed itaque sunt aut numquam illo qui galisum vitae in nisi itaque. Ad nobis quia qui galisum 
-                quasi hic consequatur voluptatum.
+            <p class="caption1">
+                To start, we've created several correlation matrices to see if there are 
+                any potential relationships between the important variables present 
+                in our dataset.
             </p>
+
+            <p class="caption2">
+                There are quite a lot of variables, so we split the overall correlation matrix up
+                into various sections. This first one dives into the relationship between
+                the ICU days and some basic patient information. Feel free to click on a square
+                to understand which variables are being measured.
+            </p>
+
+            <p class="caption3">
+                Next, we looked at the correlations between the ICU days and the Preoperative
+                Conditions of the patients. This one is a lot more messy, and it can be pretty
+                difficult to identify exactly what we're looking for.
+            </p>
+
+            <p class="caption4">
+                To save some time, we've identified a list of variables that have an interesting
+                correlation with the ICU Days. Now, let's dive a bit deeper into these variables
+                and take a closer look at them.
+            </p>
+
             <div class="matrixcontainer">
                 <div id="corrmatrix"></div>
             </div>
@@ -31,30 +59,31 @@
     </div>
 
     <div id="page2" class="pages">
-        <hr width="100%" size="2" noshade>
         <h1>Page 2</h1>
-        <h2>Page 2 Info</h2>
         <div class="itembox">
-            <p>
+            <p class="caption1">
                 Some Captions Here: Lorem ipsum dolor sit amet. Aut magni facere est impedit suscipit 
                 qui enim dolore qui voluptas eligendi. Aut deserunt nihil aut nisi error qui quasi sunt 
                 sed itaque sunt aut numquam illo qui galisum vitae in nisi itaque. Ad nobis quia qui galisum 
                 quasi hic consequatur voluptatum.
             </p>
-            <div class="rectangle"></div>
+
+            <p class="caption2">
+                Some Captions Here: 
+                BLAHBLAHBLAHBLAHBLAH
+                BLAHBLAHBLAHBLAHBLAH
+                BLAHBLAHBLAHBLAH.
+            </p>
         </div>
-        <hr width="100%" size="2" noshade>
+        <!-- <div class="rectangle"></div> -->
     </div>
 
     <div id="page3" class="pages">
-        <hr width="100%" size="2" noshade>
         <h1>Page 3</h1>
-        <h2>Page 3 Info</h2>
         <div class="itembox">
             <div id="bar_caption"> </div>
-
+        </div>
             <div class="bargraphs">
-
                 <div id="buttons">
                     <button class="option" data-value="preop_hb">Preoperative HB</button>
                     <button class="option" data-value="preop_plt">Preoperative PLT</button>
@@ -65,46 +94,36 @@
                     <button class="option" data-value="preop_alb">Preoperative Alb</button>
                     <button class="option" data-value="preop_alt">Preoperative Alt</button>
                 </div>
-                <svg id="chart" width="700" height="400"></svg>
-
-                <script src="page2.js"></script>
+                <div id="chart"></div>
             </div>
-        </div>
-        <hr width="100%" size="2" noshade>
+        
     </div>
 
     <div id="page4" class="pages">
-        <hr width="100%" size="2" noshade>
         <h1>Final Results</h1>
         <h2>Interactive Predictor</h2>
-        <div class="itembox">
-            <div class="sliders">
-                <label>Preoperative Sodium (mmol/L): <span id="sodiumVal">140</span></label>
-                <input type="range" id="sodium" min="110" max="150" value="125" step="1">
-              
-                <label>Preoperative Hemoglobin (g/dL): <span id="hbVal">14</span></label>
-                <input type="range" id="hemoglobin" min="3" max="20" value="10" step="0.1">
-              
-                <label>Preoperative Platelets (x1000/mcL): <span id="pltVal">250</span></label>
-                <input type="range" id="platelets" min="5" max="1150" value="575" step="1">
-              
-                <label>Preoperative APTT (seconds): <span id="apttVal">35</span></label>
-                <input type="range" id="aptt" min="20" max="400" value="200" step="1">
-              
-                <label>Preoperative AST (IU/L): <span id="astVal">30</span></label>
-                <input type="range" id="ast" min="2" max="5000" value="2500" step="1">
-            </div>
-            
-              
-            <div class="chart-container">
-                <div id="fin"></div>
-                <div class="output">
-                    <strong>Predicted ICU Stay:</strong> <span id="icuPred">14</span> days
-                </div>
-            </div>
+        <div class="sliders">
+            <label>Preoperative Sodium (mmol/L): <span id="sodiumVal">140</span></label>
+            <input type="range" id="sodium" min="110" max="150" value="125" step="1">
+
+            <label>Preoperative Hemoglobin (g/dL): <span id="hbVal">14</span></label>
+            <input type="range" id="hemoglobin" min="3" max="20" value="10" step="0.1">
         
+            <label>Preoperative Platelets (x1000/mcL): <span id="pltVal">250</span></label>
+            <input type="range" id="platelets" min="5" max="1150" value="575" step="1">
+        
+            <label>Preoperative APTT (seconds): <span id="apttVal">35</span></label>
+            <input type="range" id="aptt" min="20" max="400" value="200" step="1">
+        
+            <label>Preoperative AST (IU/L): <span id="astVal">30</span></label>
+            <input type="range" id="ast" min="2" max="5000" value="2500" step="1">
         </div>
-        <hr width="100%" size="2" noshade>
+        <div class="chart-container">
+            <div id="fin"></div>
+            <div class="output">
+                <strong>Predicted ICU Stay:</strong> <span id="icuPred">14</span> days
+            </div>
+          </div>
     </div>
 
     

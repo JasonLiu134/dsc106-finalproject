@@ -25,6 +25,15 @@ let feature_full = {
     'preop_alt': 'Preoperative Alanine Transaminase (IU/L)'
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    // updateChart(features[0]);
+
+    // d3.selectAll(".option").on("click", function() {
+    //     const selectedPreop = d3.select(this).attr("data-value");
+    //     updateChart(selectedPreop);
+    // });
+});
+
 // Load and process CSV data
 async function fetchData() {
     const data = await d3.csv('datasets\\vital.csv');
@@ -58,15 +67,13 @@ async function fetchData() {
 // Update chart with selected feature
 async function updateChart(feature) {
     const data = await fetchData();
-
     const filteredData = data.filter(d => !isNaN(d[feature]));
 
-    // Chart dimensions
-    const svg = d3.select("#chart");
-    svg.selectAll('svg').remove();
+    const width = 700;
+    const height = 400;
+    d3.select("#chart").selectAll("svg").remove();
+    const svg = d3.select("#chart").append("svg").attr("width", width).attr("height", height);
 
-    const width = svg.attr("width");
-    const height = svg.attr("height");
     const margin = { top: 40, right: 30, bottom: 40, left: 50 };
 
     const x = d3.scaleLinear().range([margin.left, width - margin.right]);
@@ -86,20 +93,14 @@ async function updateChart(feature) {
     x.domain([d3.min(bins, d => d.x0), d3.max(bins, d => d.x1)]);
     y.domain([0, d3.max(bins, d => d.length)]).nice();
 
-    // Remove old axes and labels before adding new ones
+    // Remove old axes and labels
     svg.selectAll(".x-axis, .y-axis, .x-label, .y-label, .chart-title").remove();
 
-    // Append new X-axis
+    // Append X-axis
     svg.append("g")
         .attr("class", "x-axis")
         .attr("transform", `translate(0,${height - margin.bottom})`)
         .call(d3.axisBottom(x));
-
-    // Append new Y-axis
-    svg.append("g")
-        .attr("class", "y-axis")
-        .attr("transform", `translate(${margin.left},0)`)
-        .call(d3.axisLeft(y));
 
     // Append X-axis label
     svg.append("text")
@@ -109,6 +110,12 @@ async function updateChart(feature) {
         .attr("text-anchor", "middle")
         .style("font-size", "14px")
         .text(`Distribution of ${feature.replace("preop_", "").toUpperCase()}`);
+
+    // Append Y-axis
+    svg.append("g")
+        .attr("class", "y-axis")
+        .attr("transform", `translate(${margin.left},0)`)
+        .call(d3.axisLeft(y));
 
     // Append Y-axis label
     svg.append("text")
@@ -159,13 +166,11 @@ async function updateChart(feature) {
     caption.append('p').text(feature_caps[feature]);
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+export function createVis(){
     updateChart(features[0]);
-    console.log("Buttons loaded:", d3.selectAll(".option").size());
 
     d3.selectAll(".option").on("click", function() {
         const selectedPreop = d3.select(this).attr("data-value");
-        console.log("Button clicked:", selectedPreop);
         updateChart(selectedPreop);
     });
-});
+}

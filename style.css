@@ -12,24 +12,32 @@
     border: 2px solid #333;
 }
 
+body {
+    transition: background-color 0.5s ease;
+    background-color: lavender;
+}
+
 h1, h2 {
     text-align: center;
 }
 
 .pages {
-    margin-top: 10%;
     position: relative;
 }
 
 .itembox {
-    margin-left: 30%;
-    display: flex;
+    margin-top: 10%;
+    position: relative;
     align-items: center;
     gap: 10%;
 }
 
 p {
-    max-width: 20%;
+    background-color: white;
+    font-size: 1.5em;
+    margin-left: 5%;
+    position: absolute;
+    max-width: 30%;
     border: 2px solid #333;
     padding: 1em;
 }
@@ -53,51 +61,56 @@ p {
     overflow: scroll;
     opacity: 0%;
     z-index: 10;
-    pointer-events: auto; /* Allow scrolling & overlay interaction */
 }
 
 .sliders {
+    background-color: white;
+    margin-top: 10%;
+    position: relative;
     display: grid;
     width: 30%;
     border: 2px solid black;
-    z-index: 11;
     padding: 2em;
     text-align: center;
+    margin-left: 10%;
+    z-index: 11;
 }
   
 .output {
     width: 55%;
     border: 2px solid black;
     text-align: center;
-    margin-left: 4em;
     padding: 1em;
 }
 
-#fin .container {
-    width: 400px;
-}
-
 .chart-container {
-    width: 50%;
+    position: absolute;
+    top: 15em;
+    margin-left: 50em;
+    width: 40%;
     align-items: center;
 }
 
 .matrixcontainer {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    margin-top: -5%;
+    margin-left: 50%;
+    width: 40%;
+    height: 40%;
+    z-index: 11;
 }
 
 #buttons, .option {
     position: relative;
-    z-index: 20; /* Higher than .scroll-overlay */
-    pointer-events: auto; /* Ensure buttons remain clickable */
+    z-index: 11; 
+    pointer-events: auto; 
 }
 
 #buttons:hover {
     color: white;
     cursor: pointer;
-    z-index: 11; /* Higher than .scroll-overlay */
-    pointer-events: auto; /* Allow button clicks */
+    z-index: 11; 
+    pointer-events: auto; 
   }
 
 .largerectangle, .rectangle {
@@ -105,5 +118,70 @@ p {
 }
 
 #bar_caption {
-    display : flex;
+    display: flex;
+}
+
+.caption2 {
+    display: none;
+}
+
+.caption3 {
+    display: none;
+}
+
+.caption4 {
+    display: none;
+}
+
+
+.captions {
+    display: block;
+}
+
+.bargraphs {
+    position: absolute;
+    margin-top: 0%;
+    margin-left: 50%;
+    width: 700px;
+    height: 447px;
+}
+
+.corrlabel {
+    white-space: pre;
+}
+
+.tooltip {
+    position: fixed;
+    top: 1em;
+    left: 1em;
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(2.5px);
+    padding: 0.8em;
+    z-index: 12;
+}
+
+.corrlist {
+    background-color: white;
+    margin-left: 30%;
+    width: 40%;
+    height: 20em;
+    overflow: auto;  
+    border: 1px solid #000;
+    z-index: 11;
+}
+
+h3 {
+    text-align: center;
+    font-size: 2em;
+}
+
+.corrtext {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+#fin .container {
+    width: 400px;
 }

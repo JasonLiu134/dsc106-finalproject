@@ -7,6 +7,7 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="global.js"></script>
     <script src="visualization.js"></script>
+    <script src="page2.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -50,13 +51,24 @@
         <h1>Page 3</h1>
         <h2>Page 3 Info</h2>
         <div class="itembox">
-            <p>
-                Some Captions Here: Lorem ipsum dolor sit amet. Aut magni facere est impedit suscipit 
-                qui enim dolore qui voluptas eligendi. Aut deserunt nihil aut nisi error qui quasi sunt 
-                sed itaque sunt aut numquam illo qui galisum vitae in nisi itaque. Ad nobis quia qui galisum 
-                quasi hic consequatur voluptatum.
-            </p>
-            <div class="rectangle"></div>
+            <div id="bar_caption"> </div>
+
+            <div class="bargraphs">
+
+                <div id="buttons">
+                    <button class="option" data-value="preop_hb">Preoperative HB</button>
+                    <button class="option" data-value="preop_plt">Preoperative PLT</button>
+                    <button class="option" data-value="preop_pt">Preoperative PT</button>
+                    <button class="option" data-value="preop_na">Preoperative NA</button>
+                    <button class="option" data-value="preop_k">Preoperative K</button>
+                    <button class="option" data-value="preop_gluc">Preoperative Gluc</button>
+                    <button class="option" data-value="preop_alb">Preoperative Alb</button>
+                    <button class="option" data-value="preop_alt">Preoperative Alt</button>
+                </div>
+                <svg id="chart" width="700" height="400"></svg>
+
+                <script src="page2.js"></script>
+            </div>
         </div>
         <hr width="100%" size="2" noshade>
     </div>

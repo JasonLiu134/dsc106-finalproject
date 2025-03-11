@@ -66,10 +66,15 @@ p {
 }
   
 .output {
-    width: 50%;
+    width: 55%;
     border: 2px solid black;
     text-align: center;
+    margin-left: 4em;
     padding: 1em;
+}
+
+#fin .container {
+    width: 400px;
 }
 
 .chart-container {

@@ -79,22 +79,29 @@
         <h2>Interactive Predictor</h2>
         <div class="itembox">
             <div class="sliders">
-                <label>Preoperative Glucose (mg/dL): <span id="glucoseVal">100</span></label>
-                <input type="range" id="glucose" min="50" max="300" value="100" step="1">
-          
-                <label>Preoperative Albumin (g/dL): <span id="albuminVal">4.0</span></label>
-                <input type="range" id="albumin" min="2.0" max="5.0" value="4.0" step="0.1">
-          
-                <label>Preoperative ALT (IU/L): <span id="altVal">30</span></label>
-                <input type="range" id="alt" min="10" max="100" value="30" step="1">
-              </div>
+                <label>Preoperative Sodium (mmol/L): <span id="sodiumVal">140</span></label>
+                <input type="range" id="sodium" min="110" max="150" value="125" step="1">
               
-              <div class="chart-container">
+                <label>Preoperative Hemoglobin (g/dL): <span id="hbVal">14</span></label>
+                <input type="range" id="hemoglobin" min="3" max="20" value="10" step="0.1">
+              
+                <label>Preoperative Platelets (x1000/mcL): <span id="pltVal">250</span></label>
+                <input type="range" id="platelets" min="5" max="1150" value="575" step="1">
+              
+                <label>Preoperative APTT (seconds): <span id="apttVal">35</span></label>
+                <input type="range" id="aptt" min="20" max="400" value="200" step="1">
+              
+                <label>Preoperative AST (IU/L): <span id="astVal">30</span></label>
+                <input type="range" id="ast" min="2" max="5000" value="2500" step="1">
+            </div>
+            
+              
+            <div class="chart-container">
                 <div id="fin"></div>
                 <div class="output">
-                    <strong>Predicted ICU Stay:</strong> <span id="icuPred">3</span> days
+                    <strong>Predicted ICU Stay:</strong> <span id="icuPred">14</span> days
                 </div>
-              </div>
+            </div>
         
         </div>
         <hr width="100%" size="2" noshade>

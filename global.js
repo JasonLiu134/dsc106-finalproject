@@ -1,5 +1,7 @@
 import {changeCorrDisplay} from './corrmatrix.js';
+import {changeCorrDisplay2} from './cm2.js';
 import {createVis} from './barcharts.js';
+import {createBVis} from './firstcharts.js';
 import {createFinalVis} from './finalvis.js';
 
 let currentScroll = 0;
@@ -15,8 +17,8 @@ let lastPageUpdate = 0;
 
 const squareScale = d3.scaleLinear().domain([0, 100]).range([0, 600]).clamp(true).interpolate((a, b) => (t) => a + (b - a) * t * t);
 const squareScaleSmall = d3.scaleLinear().domain([0, 50]).range([0, 300]).clamp(true).interpolate((a, b) => (t) => a + (b - a) * t * t);
-const scrollStates = [0, 4, 2, 1, 1];
-const bgcolors = ['blank', 'lavender', 'honeydew', 'papayawhip', 'whitesmoke'];
+const scrollStates = [0, 1, 2, 4, 5, 4, 1, 3, 1];
+const bgcolors = ['blank', 'aliceblue', 'ivory', 'lavender', 'beige', 'honeydew', 'papayawhip', 'lavenderblush', 'whitesmoke'];
 
 window.onload = function() {
     activateScroll();
@@ -239,7 +241,7 @@ function firstLast() {
         startingPage = false;
     }
 
-    if (currentPage === 4) {
+    if (currentPage === 8) {
         lastPage = true;
     } else {
         lastPage = false;
@@ -247,56 +249,6 @@ function firstLast() {
 }
 
 function changePageState(mode) {
-    if (currentPage === 1) {
-        if (currentScrollState === 1) {
-            const fadeIn = d3.select(`#page1 .caption1`);
-            if (mode === 'down') {
-                const fadeOut = d3.select(`#page1 .caption2`);
-                fadeInOut(fadeIn, fadeOut);
-            } else if (mode === 'up') {
-                const fadeOut = d3.select(`#page1 .caption2`);
-                fadeOutIn(fadeIn, fadeOut);
-            }
-            changeCorrDisplay(1);
-        }
-
-        if (currentScrollState === 2) {
-            const fadeIn = d3.select(`#page1 .caption2`);
-            if (mode === 'down') {
-                const fadeOut = d3.select(`#page1 .caption1`);
-                fadeInOut(fadeIn, fadeOut);
-            } else if (mode === 'up') {
-                const fadeOut = d3.select(`#page1 .caption3`);
-                fadeOutIn(fadeIn, fadeOut);
-            }
-            changeCorrDisplay(2);
-        }
-
-        if (currentScrollState === 3) {
-            const fadeIn = d3.select(`#page1 .caption3`);
-            if (mode === 'down') {
-                const fadeOut = d3.select(`#page1 .caption2`);
-                fadeInOut(fadeIn, fadeOut);
-            } else if (mode === 'up') {
-                const fadeOut = d3.select(`#page1 .caption4`);
-                fadeOutIn(fadeIn, fadeOut);
-            }
-            changeCorrDisplay(3);
-        }
-
-        if (currentScrollState === 4) {
-            const fadeIn = d3.select(`#page1 .caption4`);
-            if (mode === 'down') {
-                const fadeOut = d3.select(`#page1 .caption3`);
-                fadeInOut(fadeIn, fadeOut);
-            } else if (mode === 'up') {
-                const fadeOut = d3.select(`#page1 .caption3`);
-                fadeOutIn(fadeIn, fadeOut);
-            }
-            changeCorrDisplay(4);
-        }
-    }
-
     if (currentPage === 2) {
         if (currentScrollState === 1) {
             const fadeIn = d3.select(`#page2 .caption1`);
@@ -320,10 +272,193 @@ function changePageState(mode) {
     }
 
     if (currentPage === 3) {
-        createVis();
+        if (currentScrollState === 1) {
+            const fadeIn = d3.select(`#page3 .caption1`);
+            if (mode === 'down') {
+                const fadeOut = d3.select(`#page3 .caption2`);
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page3 .caption2`);
+                fadeOutIn(fadeIn, fadeOut);
+            }
+            changeCorrDisplay(1);
+        }
+
+        if (currentScrollState === 2) {
+            const fadeIn = d3.select(`#page3 .caption2`);
+            if (mode === 'down') {
+                const fadeOut = d3.select(`#page3 .caption1`);
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page3 .caption3`);
+                fadeOutIn(fadeIn, fadeOut);
+            }
+            changeCorrDisplay(2);
+        }
+
+        if (currentScrollState === 3) {
+            const fadeIn = d3.select(`#page3 .caption3`);
+            if (mode === 'down') {
+                const fadeOut = d3.select(`#page3 .caption2`);
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page3 .caption4`);
+                fadeOutIn(fadeIn, fadeOut);
+            }
+            changeCorrDisplay(3);
+        }
+
+        if (currentScrollState === 4) {
+            const fadeIn = d3.select(`#page3 .caption4`);
+            if (mode === 'down') {
+                const fadeOut = d3.select(`#page3 .caption3`);
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page3 .caption3`);
+                fadeOutIn(fadeIn, fadeOut);
+            }
+            changeCorrDisplay(4);
+        }
     }
 
     if (currentPage === 4) {
+        if (currentScrollState === 1) {
+            const fadeIn = d3.select(`#page4 .caption1`);
+            const fadeOut = d3.select(`#page4 .caption2`);
+            if (mode === 'down') {
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                fadeOutIn(fadeIn, fadeOut);
+            }
+            changeCorrDisplay2(1);
+        }
+
+        if (currentScrollState === 2) {
+            const fadeIn = d3.select(`#page4 .caption2`);
+            if (mode === 'down') {
+                const fadeOut = d3.select(`#page4 .caption1`);
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page4 .caption3`);
+                fadeOutIn(fadeIn, fadeOut);
+            }
+            changeCorrDisplay2(2);
+        }
+
+        if (currentScrollState === 3) {
+            const fadeIn = d3.select(`#page4 .caption3`);
+            if (mode === 'down') {
+                const fadeOut = d3.select(`#page4 .caption2`);
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page4 .caption4`);
+                fadeOutIn(fadeIn, fadeOut);
+            }
+            changeCorrDisplay2(3);
+        }
+
+        if (currentScrollState === 4) {
+            const fadeIn = d3.select(`#page4 .caption4`);
+            if (mode === 'down') {
+                const fadeOut = d3.select(`#page4 .caption3`);
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page4 .caption5`);
+                fadeOutIn(fadeIn, fadeOut);
+            }
+            changeCorrDisplay2(4);
+        }
+
+        if (currentScrollState === 5) {
+            const fadeIn = d3.select(`#page4 .caption5`);
+            if (mode === 'down') {
+                const fadeOut = d3.select(`#page4 .caption4`);
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page4 .caption4`);
+                fadeOutIn(fadeIn, fadeOut);
+            }
+            changeCorrDisplay2(5);
+        }
+    }
+
+    if (currentPage === 5) {
+        if (currentScrollState === 1) {
+            const fadeIn = d3.select(`#page5 .caption1`);
+            const fadeOut = d3.select(`#page5 .caption2`);
+            if (mode === 'down') {
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                fadeOutIn(fadeIn, fadeOut);
+            }
+            createBVis(1);
+        }
+
+        if (currentScrollState === 2) {
+            const fadeIn = d3.select(`#page5 .caption2`);
+            if (mode === 'down') {
+                const fadeOut = d3.select(`#page5 .caption1`);
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page5 .caption3`);
+                fadeOutIn(fadeIn, fadeOut);
+            }
+            createBVis(2);
+        }
+
+        if (currentScrollState === 3) {
+            const fadeIn = d3.select(`#page5 .caption3`);
+            if (mode === 'down') {
+                const fadeOut = d3.select(`#page5 .caption2`);
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page5 .caption2`);
+                fadeOutIn(fadeIn, fadeOut);
+            }
+            createBVis(3);
+        }
+    }
+
+    if (currentPage === 6) {
+        createVis();
+    }
+
+    if (currentPage === 7) {
+        if (currentScrollState === 1) {
+            const fadeIn = d3.select(`#page7 .caption1`);
+            if (mode === 'down') {
+                const fadeOut = d3.select(`#page7 .caption2`);
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page7 .caption2`);
+                fadeOutIn(fadeIn, fadeOut);
+            }
+        }
+
+        if (currentScrollState === 2) {
+            const fadeIn = d3.select(`#page7 .caption2`);
+            if (mode === 'down') {
+                const fadeOut = d3.select(`#page7 .caption1`);
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page7 .caption3`);
+                fadeOutIn(fadeIn, fadeOut);
+            }
+        }
+
+        if (currentScrollState === 3) {
+            const fadeIn = d3.select(`#page7 .caption3`);
+            if (mode === 'down') {
+                const fadeOut = d3.select(`#page7 .caption2`);
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page7 .caption2`);
+                fadeOutIn(fadeIn, fadeOut);
+            }
+        }
+    }
+
+    if (currentPage === 8) {
         createFinalVis();
     }
 }
@@ -365,11 +500,19 @@ function fadeOutIn(fadeIn, fadeOut) {
 }
 
 function activatePageState() {
-    if (currentPage === 3) {
+    if (currentPage === 4) {
+        changeCorrDisplay2(1);
+    }
+
+    if (currentPage === 5) {
+        createBVis(1);
+    }
+
+    if (currentPage === 6) {
         createVis();
     }
 
-    if (currentPage === 4) {
+    if (currentPage === 8) {
         createFinalVis();
     }
 }

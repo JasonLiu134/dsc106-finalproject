@@ -8,7 +8,9 @@
     <script type="module" src="global.js"></script>
     <script type="module" src="corrmatrix.js"></script>
     <script type="module" src="barcharts.js"></script>
+    <script type="module" src="firstcharts.js"></script>
     <script type="module" src="finalvis.js"></script>
+    <script type="module" src="cm2.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,6 +18,50 @@
         <div class="largerectangle"></div>
     </div>
     <div id="page1" class="pages">
+        <div class="itembox">
+            <h5 class="titular1">A Dive into Surgery Statistics</h5>
+            <h5 class="titular2">What Determines ICU Stays?</h5>
+            <h6 class="name1">Jason Liu</h6>
+            <h6 class="name2">Hansel Puthenparambil</h6>
+            <h6 class="name3">Ishaan Koradia</h6>
+        </div>
+    </div>
+
+    <div id="page2" class="pages">
+        <h1>Background</h1>
+        <div class="itemboxbg">
+            <p class="caption1 bgtext" >
+                Many people are admitted to the ICU every day. In some cases,
+                the patients are able to quickly recover and are discharged soon
+                after being admitted. 
+                
+                <br> <br>
+
+                There are many factors that could be potential factors for the 
+                amount of time a person may spend in the ICU. The factors that stand
+                out the most are a person's physical attributes and their Preoperative
+                Conditions when first being admitted to the ICU. 
+            </p>
+
+            <p class="caption2 bgtext">
+                We want to answer the following question: 
+                
+                <br> <br>
+                
+                Is there a way for patients to be able to predict the length of time they 
+                will be staying in the ICU based on their physical state when being admitted?
+
+                <br> <br>
+
+                If a patient can estimate how long they might spend at the ICU, it might help
+                them with managing their time over the following days. Patients will know
+                how many days to take off work, or gauge the amount of time they will need to 
+                spend recovering.
+            </p>
+        </div>
+    </div>
+
+    <div id="page3" class="pages">
         <h1>Initial Exploration</h1>
         <dl id="corr-tooltip" class="tooltip">
             <dt>Correlation</dt>
@@ -36,8 +82,8 @@
             <p class="caption2">
                 There are quite a lot of variables, so we split the overall correlation matrix up
                 into various sections. This first one dives into the relationship between
-                the ICU days and some basic patient information. Feel free to click on a square
-                to understand which variables are being measured.
+                the ICU days and some basic patient information. Feel free to hover over a square
+                to better see which variables are being measured.
             </p>
 
             <p class="caption3">
@@ -47,9 +93,9 @@
             </p>
 
             <p class="caption4">
-                To save some time, we've identified a list of variables that have an interesting
+                To start, we've identified a list of variables that have an interesting
                 correlation with the ICU Days. Now, let's dive a bit deeper into these variables
-                and take a closer look at them.
+                and take a closer look at them and why they were chosen in the upcoming section.
             </p>
 
             <div class="matrixcontainer">
@@ -58,65 +104,138 @@
         </div>
     </div>
 
-    <div id="page2" class="pages">
-        <h1>Page 2</h1>
+    <div id="page4" class="pages">
+        <h1>Analysis of Correlations</h1>
         <div class="itembox">
             <p class="caption1">
-                Some Captions Here: Lorem ipsum dolor sit amet. Aut magni facere est impedit suscipit 
-                qui enim dolore qui voluptas eligendi. Aut deserunt nihil aut nisi error qui quasi sunt 
-                sed itaque sunt aut numquam illo qui galisum vitae in nisi itaque. Ad nobis quia qui galisum 
-                quasi hic consequatur voluptatum.
+                First, let's take a look at all of the relevant correlations. Since we're trying to
+                understand if we can predict the ICU Days, we'll look at all of the correlations that
+                have to do with this.
             </p>
 
             <p class="caption2">
-                Some Captions Here: 
-                BLAHBLAHBLAHBLAHBLAH
-                BLAHBLAHBLAHBLAHBLAH
-                BLAHBLAHBLAHBLAH.
+                We'll pick out the top 7 features with the highest correlation. However, there's more to
+                these features than meets the eye at first glance!
             </p>
+
+            <p class="caption3">
+                Remember, we plotted everything on a correlation matrix. This means that we're able to see
+                the correlation between these preoperative conditions! And some of these features have very
+                high correlations with each other!
+            </p>
+
+            <p class="caption4">
+                The two relationships that stand out with having an extremely high correlation with each other
+                are displayed here, with an extremely high correlation of at least 0.6. This is among the highest
+                correlations in the entire data! Since trying to predict ICU days with both of these variables
+                would be redundant, we'll only keep the preoperative condition with a higher correlation with ICU Days.
+            </p>
+
+            <p class="caption5">
+                It seems like all of these are preoperative conditions, which is interesting. We thought we'd
+                see more physical features such as age, height, and weight to be relevant - so next, 
+                we'll take a look at those to see if there really is a correlation between them and the ICU Days!
+            </p>
+
+            <div class="displaybox">
+                <div id="displaythings"></div> 
+            </div>
         </div>
-        <!-- <div class="rectangle"></div> -->
     </div>
 
-    <div id="page3" class="pages">
-        <h1>Page 3</h1>
+    <div id="page5" class="pages">
+        <h1>Insight on Physical Attributes</h1>
+        <div class="itembox">
+            <p class="caption1">
+                Here is a distribution of age when compared to the average ICU Days. Here,
+                we don't really observe a relationship between the two, since both high and 
+                low ages see long ICU stays, while most of the middle ages stays consistently
+                at similar values.
+            </p>
+
+            <p class="caption2">
+                Here is a distribution of height when compared to average ICU Days. The distribution
+                does look like there is a slight relationship, which makes sense given the higher
+                correlation compared to before. However, the relationship still isn't very strong.
+            </p>
+
+            <p class="caption3">
+                Here is a distribution of weight when compared to average ICU Days. Similarly to height,
+                the distribution has a slight relationship. However, the correlation is still pretty low,
+                so it seems like weight doesn't have a strong relationship with ICU stay length.
+            </p>
+        </div>
+        <div class="ibargraphs">
+            <div id="bchart"></div>
+        </div>
+        
+    </div>
+
+    <div id="page6" class="pages">
+        <h1>Important Preoperative Conditions</h1>
         <div class="itembox">
             <div id="bar_caption"> </div>
         </div>
             <div class="bargraphs">
                 <div id="buttons">
-                    <button class="option" data-value="preop_hb">Preoperative HB</button>
-                    <button class="option" data-value="preop_plt">Preoperative PLT</button>
-                    <button class="option" data-value="preop_pt">Preoperative PT</button>
-                    <button class="option" data-value="preop_na">Preoperative NA</button>
-                    <button class="option" data-value="preop_k">Preoperative K</button>
-                    <button class="option" data-value="preop_gluc">Preoperative Gluc</button>
-                    <button class="option" data-value="preop_alb">Preoperative Alb</button>
-                    <button class="option" data-value="preop_alt">Preoperative Alt</button>
+                    <button class="option" data-value="preop_hb">Preop Hemoglobin</button>
+                    <button class="option" data-value="preop_alb">Preop Albumin</button>
+                    <button class="option" data-value="preop_na">Preop Sodium</button>
+                    <button class="option" data-value="preop_alt">Preop ALT</button>
+                    <button class="option" data-value="preop_gluc">Preop aPTT</button>
+                    <button class="option" data-value="preop_alt">Preop AST</button>
                 </div>
                 <div id="chart"></div>
             </div>
-        
     </div>
 
-    <div id="page4" class="pages">
+    <div id="page7" class="pages">
+        <h1>Important Findings</h1>
+        <div class="itemboxbg">
+            <p class="caption1 bgtext" >
+                Now, we have a list of some important Preoperative Conditions that may
+                correlate with ICU Days.
+                
+                <br> <br>
+
+                The main factors that we found had high correlation with ICU Days and not with 
+                another preoperative condition were Albumin, AST, aPTT, and Sodium. Based on these values, 
+                we might be able to predict the length of a patient's potential length of ICU stay.
+
+            </p>
+
+            <p class="caption2 bgtext">
+                There are also some physical factors that we found were not as relevant.
+                
+                <br> <br>
+                
+                Specifically, it appears like age, height, and weight aren't very relevant
+                to the length of a patient's ICU stay. Of these features, height plays the biggest
+                factor, but it's still not extremely relevant when it comes to making predictions.
+            </p>
+
+            <p class="caption3 bgtext">
+                Why don't we try to make a simple linear regression models using the relevant
+                features that we found? Let's see how it looks!
+            </p>
+        </div>
+    </div>
+
+    <div id="page8" class="pages">
         <h1>Final Results</h1>
         <h2>Interactive Predictor</h2>
         <div class="sliders">
-            <label>Preoperative Sodium (mmol/L): <span id="sodiumVal">140</span></label>
+            <label>Preoperative Sodium (mmol/L): <span id="sodiumVal">125</span></label>
             <input type="range" id="sodium" min="110" max="150" value="125" step="1">
 
-            <label>Preoperative Hemoglobin (g/dL): <span id="hbVal">14</span></label>
-            <input type="range" id="hemoglobin" min="3" max="20" value="10" step="0.1">
-        
-            <label>Preoperative Platelets (x1000/mcL): <span id="pltVal">250</span></label>
-            <input type="range" id="platelets" min="5" max="1150" value="575" step="1">
-        
-            <label>Preoperative APTT (seconds): <span id="apttVal">35</span></label>
+            <label>Preoperative Albumin (g/dL): <span id="albVal">10</span></label>
+            <input type="range" id="alb" min="3" max="20" value="10" step="0.1">
+
+            <label>Preoperative APTT (seconds): <span id="apttVal">200</span></label>
             <input type="range" id="aptt" min="20" max="400" value="200" step="1">
-        
-            <label>Preoperative AST (IU/L): <span id="astVal">30</span></label>
-            <input type="range" id="ast" min="2" max="5000" value="2500" step="1">
+
+            <label>Preoperative Alanine Transaminase (IU/L): <span id="altVal">500</span></label>
+            <input type="range" id="alt" min="2" max="1000" value="500" step="1">
         </div>
         <div class="chart-container">
             <div id="fin"></div>

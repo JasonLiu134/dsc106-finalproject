@@ -40,10 +40,9 @@ const widthScale = d3.scaleLinear().domain([0, 14]).range([0, 400]);
         .text("14 days");
 
     document.getElementById("sodium").addEventListener("input", updateDisplay);
-    document.getElementById("hemoglobin").addEventListener("input", updateDisplay);
-    document.getElementById("platelets").addEventListener("input", updateDisplay);
+    document.getElementById("alb").addEventListener("input", updateDisplay);
     document.getElementById("aptt").addEventListener("input", updateDisplay);
-    document.getElementById("ast").addEventListener("input", updateDisplay);
+    document.getElementById("alt").addEventListener("input", updateDisplay);
 
     function updateDisplay() {
         let sodium = parseFloat(document.getElementById("sodium").value);
@@ -53,16 +52,14 @@ const widthScale = d3.scaleLinear().domain([0, 14]).range([0, 400]);
         let ast = parseFloat(document.getElementById("ast").value);
 
         // Example regression line equation (will replace with actual model coefficients)
-        let icu_days = (0.029775145236927203 * aptt) + (-0.13463185618371287 * sodium) + 
-            (-0.20034793436033685 * hemoglobin) + (-0.004446836926403632 * platelets) + 
-            (0.003035309694611115 * ast) + 21.920014027366662;
+        let icu_days = (0.029044775719852478 * aptt) + (-0.9991864296384556 * alb) + 
+        (0.008351254739927469 * alt) + (-0.08939127425750719 * sodium) + 15.881580890725147;
         icu_days = Math.max(0, Math.min(14, icu_days.toFixed(1)));
 
         document.getElementById("sodiumVal").innerText = sodium;
-        document.getElementById("hbVal").innerText = hemoglobin;
-        document.getElementById("pltVal").innerText = platelets;
+        document.getElementById("altVal").innerText = alt;
         document.getElementById("apttVal").innerText = aptt;
-        document.getElementById("astVal").innerText = ast;
+        document.getElementById("albVal").innerText = alb;
         document.getElementById("icuPred").innerText = icu_days;
 
         // Update bar width

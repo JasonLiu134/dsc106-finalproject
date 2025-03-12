@@ -139,10 +139,10 @@ async function createBasicCorr() {
 
   correlationLabels.forEach(function(label) {
     svg.append("text")
-      .attr("x", `${-10 - label.length * 3}`)
+      .attr("x", `${-8 - nameLabels[correlationLabels.indexOf(label)].length * 3.4}`)
       .attr("y", `${-6 - correlationLabels.indexOf(label) * scaleFactor * cellSize}`)
       .attr("font-size", "0.5em")
-      .text(`${label}`)
+      .text(`${nameLabels[correlationLabels.indexOf(label)]}`)
       .attr("transform", "rotate(90)")
       .attr("pointer-events", "none")
       .attr("class", "corrlabel");
@@ -150,10 +150,10 @@ async function createBasicCorr() {
 
   correlationLabels.forEach(function(label) {
     svg.append("text")
-      .attr("x", `${-8 - label.length * 3.2}`)
+      .attr("x", `${-6 - nameLabels[correlationLabels.indexOf(label)].length * 3.4}`)
       .attr("y", `${9 + correlationLabels.indexOf(label) * scaleFactor * cellSize}`)
       .attr("font-size", "0.5em")
-      .text(`${label}`)
+      .text(`${nameLabels[correlationLabels.indexOf(label)]}`)
       .attr("pointer-events", "none")
       .attr("class", "corrlabel");
   });
@@ -214,10 +214,10 @@ async function createPreopCorr() {
 
   correlationLabels.forEach(function(label) {
     svg.append("text")
-      .attr("x", `${-8 - label.length * 2.4}`)
-      .attr("y", `${-4 - correlationLabels.indexOf(label) * scaleFactor * cellSize}`)
-      .attr("font-size", "0.4em")
-      .text(`${label}`)
+      .attr("x", `${-7 - nameLabels[correlationLabels.indexOf(label)].length * 1.85}`)
+      .attr("y", `${-5 - correlationLabels.indexOf(label) * scaleFactor * cellSize}`)
+      .attr("font-size", "0.3em")
+      .text(`${nameLabels[correlationLabels.indexOf(label)]}`)
       .attr("transform", "rotate(90)")
       .attr("pointer-events", "none")
       .attr("class", "corrlabel");
@@ -225,10 +225,10 @@ async function createPreopCorr() {
 
   correlationLabels.forEach(function(label) {
     svg.append("text")
-      .attr("x", `${-8 - label.length * 2.4}`)
+      .attr("x", `${-7 - nameLabels[correlationLabels.indexOf(label)].length * 2.6}`)
       .attr("y", `${7.5 + correlationLabels.indexOf(label) * scaleFactor * cellSize}`)
       .attr("font-size", "0.4em")
-      .text(`${label}`)
+      .text(`${nameLabels[correlationLabels.indexOf(label)]}`)
       .attr("pointer-events", "none")
       .attr("class", "corrlabel");
   });
@@ -265,14 +265,16 @@ function createFinalList() {
   fin.append('h3').text("Important Correlations with ICU Days");
   fin.append('div')
     .attr("class", "corrlist")
-    .append('h4').text("Sodium: -0.18").attr("class", "corrtext")
-    .append('h4').text("Hemoglobin: -0.17").attr("class", "corrtext")
-    .append('h4').text("Platelet Count: -0.12").attr("class", "corrtext")
-    .append('h4').text("Aspartate Animotransferase: 0.17").attr("class", "corrtext")
-    .append('h4').text("aPTT: 0.18").attr("class", "corrtext")
-    .append('h4').text("Sex: 0.04").attr("class", "corrtext")
+    .append('h4').text("Age: -0.01").attr("class", "corrtext")
+    .append('h4').text("Weight: -0.10").attr("class", "corrtext")
     .append('h4').text("Height: -0.12").attr("class", "corrtext")
-    .append('h4').text("Weight: -0.10").attr("class", "corrtext");
+    .append('h4').text("Hemoglobin: -0.17").attr("class", "corrtext")
+    .append('h4').text("Aspartate Aminotransferase: 0.17").attr("class", "corrtext")
+    .append('h4').text("Sodium: -0.18").attr("class", "corrtext")
+    .append('h4').text("aPTT: 0.18").attr("class", "corrtext")
+    .append('h4').text("Albumin: -0.26").attr("class", "corrtext")
+    .append('h4').text("Physical Therapy: -0.27").attr("class", "corrtext")
+    .append('h4').text("Alanine Animotransferase: 0.27").attr("class", "corrtext");
 }
 
 export function changeCorrDisplay(pageNum) {

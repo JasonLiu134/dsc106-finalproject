@@ -14,7 +14,7 @@
 
 body {
     transition: background-color 0.5s ease;
-    background-color: lavender;
+    background-color: aliceblue;
 }
 
 h1, h2 {
@@ -51,6 +51,22 @@ p {
 }
 
 #page4 {
+    display: none;
+}
+
+#page5 {
+    display: none;
+}
+
+#page6 {
+    display: none;
+}
+
+#page7 {
+    display: none;
+}
+
+#page8 {
     display: none;
 }
 
@@ -93,8 +109,8 @@ p {
 
 .matrixcontainer {
     position: absolute;
-    margin-top: -5%;
-    margin-left: 50%;
+    margin-top: -3%;
+    margin-left: 52%;
     width: 40%;
     height: 40%;
     z-index: 11;
@@ -133,6 +149,9 @@ p {
     display: none;
 }
 
+.caption5 {
+    display: none;
+}
 
 .captions {
     display: block;
@@ -154,10 +173,10 @@ p {
     position: fixed;
     top: 1em;
     left: 1em;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.756);
     box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
     border-radius: 10px;
-    backdrop-filter: blur(2.5px);
+    backdrop-filter: blur(3px);
     padding: 0.8em;
     z-index: 12;
 }
@@ -184,4 +203,72 @@ h3 {
 
 #fin .container {
     width: 400px;
+}
+
+.titular1 {
+    font-size: 4em;
+    margin-top: 15%;
+    margin-bottom: 0%;
+    text-align: center;
+}
+
+.titular2 {
+    font-size: 3em;
+    margin-top: 0%;
+    margin-bottom: 0%;
+    text-align: center;
+}
+
+.name1 {
+    font-size: 1.2em;
+    margin-top: 5%;
+    margin-bottom: 0%;
+    text-align: center;
+}
+
+.name2 {
+    font-size: 1.2em;
+    margin-top: 0.5em;
+    margin-bottom: 0%;
+    text-align: center;
+}
+
+.name3 {
+    font-size: 1.2em;
+    margin-top: 0.5em;
+    margin-bottom: 0%;
+    text-align: center;
+}
+
+.itemboxbg {
+    margin-top: 5%;
+    position: relative;
+    align-items: center;
+    gap: 10%;
+    margin-left: 27.5%;
+}
+
+.bgtext {
+    font-size: 1.8em;
+    max-width: 50%;
+}
+
+.ibargraphs {
+    position: absolute;
+    margin-top: 0%;
+    margin-left: 50%;
+    width: 700px;
+    height: 447px;
+}
+
+.displaybox {
+    position: absolute;
+    margin-top: -3%;
+    margin-left: 52%;
+    width: 40%;
+    height: 40%;
+}
+
+.filxtext {
+    white-space: pre;
 }

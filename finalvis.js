@@ -46,10 +46,9 @@ const widthScale = d3.scaleLinear().domain([0, 14]).range([0, 400]);
 
     function updateDisplay() {
         let sodium = parseFloat(document.getElementById("sodium").value);
-        let hemoglobin = parseFloat(document.getElementById("hemoglobin").value);
-        let platelets = parseFloat(document.getElementById("platelets").value);
+        let alb = parseFloat(document.getElementById("alb").value);
         let aptt = parseFloat(document.getElementById("aptt").value);
-        let ast = parseFloat(document.getElementById("ast").value);
+        let alt = parseFloat(document.getElementById("alt").value);
 
         // Example regression line equation (will replace with actual model coefficients)
         let icu_days = (0.029044775719852478 * aptt) + (-0.9991864296384556 * alb) + 

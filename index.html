@@ -224,25 +224,29 @@
     <div id="page8" class="pages">
         <h1>Final Results</h1>
         <h2>Interactive Predictor</h2>
-        <div class="sliders">
-            <label>Preoperative Sodium (mmol/L): <span id="sodiumVal">125</span></label>
-            <input type="range" id="sodium" min="110" max="150" value="125" step="1">
+        <div class="itembox">
+            <div class="sliders">
+                <label>Preoperative Sodium (mmol/L): <span id="sodiumVal">125</span></label>
+                <input type="range" id="sodium" min="110" max="150" value="125" step="1">
 
-            <label>Preoperative Albumin (g/dL): <span id="albVal">10</span></label>
-            <input type="range" id="alb" min="3" max="20" value="10" step="0.1">
+                <label>Preoperative Albumin (g/dL): <span id="albVal">10</span></label>
+                <input type="range" id="alb" min="3" max="20" value="10" step="0.1">
 
-            <label>Preoperative APTT (seconds): <span id="apttVal">200</span></label>
-            <input type="range" id="aptt" min="20" max="400" value="200" step="1">
+                <label>Preoperative APTT (seconds): <span id="apttVal">200</span></label>
+                <input type="range" id="aptt" min="20" max="400" value="200" step="1">
 
-            <label>Preoperative Alanine Transaminase (IU/L): <span id="altVal">500</span></label>
-            <input type="range" id="alt" min="2" max="1000" value="500" step="1">
-        </div>
-        <div class="chart-container">
-            <div id="fin"></div>
-            <div class="output">
-                <strong>Predicted ICU Stay:</strong> <span id="icuPred">14</span> days
+                <label>Preoperative Alanine Transaminase (IU/L): <span id="altVal">500</span></label>
+                <input type="range" id="alt" min="2" max="1000" value="500" step="1">
             </div>
-          </div>
+
+            <div class="chart-container">
+                <div id="fin"></div>
+                <div class="output">
+                    <strong>Predicted ICU Stay:</strong> <span id="icuPred">4.7</span> days
+                </div>
+            </div>
+
+        </div>
     </div>
 
     

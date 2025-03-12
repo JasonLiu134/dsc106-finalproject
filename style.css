@@ -101,7 +101,7 @@ p {
 
 .chart-container {
     position: absolute;
-    top: 15em;
+    top: 0em;
     margin-left: 50em;
     width: 40%;
     align-items: center;

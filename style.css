@@ -88,14 +88,14 @@ p {
     border: 2px solid black;
     padding: 2em;
     text-align: center;
-    margin-left: 10%;
+    margin-left: 15%;
     z-index: 11;
 }
 
 .output {
-    width: 70%;
+    width: 73%;
     position: absolute;
-    top: -500%;
+    top: -525%;
     text-align: center;
     /* padding: 1em; */
 }
@@ -104,7 +104,7 @@ p {
     position: absolute;
     top: 15em;
     margin-left: 50em;
-    width: 40%;
+    width: 50%;
     align-items: center;
 }
 
@@ -280,6 +280,6 @@ h3 {
 }
 
 .label-text {
-    font-size: 50px;
-    transform: translate(0, -150%);
+    font-size: 75px;
+    transform: translate(15%, -140%);
 }

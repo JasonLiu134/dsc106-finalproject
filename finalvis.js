@@ -1,76 +1,100 @@
 document.addEventListener('DOMContentLoaded', function () {
     createFinalVis();
-  });
+});
 
 export function createFinalVis() {
-d3.select('#fin').selectAll("svg").remove();
-const svg = d3
-    .select('#fin')
-    .append('svg')
-    .attr('width', 200)
-    .attr('height', 100)
-    .attr('viewBox', `65 0 200 100`)
-    .style('overflow', 'visible');
-
-// Create the maximum container
-svg.append("rect")
-    .attr("x", 50)
-    .attr("y", 30)
-    .attr("height", 40)
-    .attr("width", 314)
-    .attr("fill", "none")
-    .attr("stroke", "black")
-    .attr("class", "container");
-
-// Create the rectangle
-const widthScale = d3.scaleLinear().domain([0, 14]).range([0, 400]);
-    svg.append("rect")
-        .attr("x", 50)
-        .attr("y", 30)
-        .attr("height", 40)
-        .attr("width", widthScale(14))
-        .attr("fill", "black")
-        .attr("class", "fillbox");
-
-    // Create text
+    d3.select('#fin').selectAll("svg").remove();
+    const width = 500, height = 50, radius = 200;
+    const tickCount = 7;
+    const svg = d3.select('#fin')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .attr('viewBox', `0 0 ${width} ${height}`)
+        .style('overflow', 'visible');
+    const arc = d3.arc()
+        .innerRadius(radius - 20)
+        .outerRadius(radius - 5)
+        .startAngle(-Math.PI / 2)
+        .endAngle(Math.PI / 2);
+    svg.append("path")
+        .attr("d", arc)
+        .attr("fill", "white")
+        .attr("transform", `translate(${width / 2}, ${height - 75})`)
+        .attr("stroke", "black") 
+        .attr("stroke-width", 3);
+    const icuDaysArc = svg.append("path")
+        .attr("fill", "blue")
+        .attr("transform", `translate(${width / 2}, ${height - 75})`);
     const label = svg.append("text")
-        .attr("x", 50 + widthScale(14) + 10)
-        .attr("y", 80)
-        .attr("dy", ".35em")
-        .text("14 days");
-
-    document.getElementById("sodium").addEventListener("input", updateDisplay);
-    document.getElementById("alb").addEventListener("input", updateDisplay);
-    document.getElementById("aptt").addEventListener("input", updateDisplay);
-    document.getElementById("alt").addEventListener("input", updateDisplay);
-
-    function updateDisplay() {
-        let sodium = parseFloat(document.getElementById("sodium").value);
-        let alb = parseFloat(document.getElementById("alb").value);
-        let aptt = parseFloat(document.getElementById("aptt").value);
-        let alt = parseFloat(document.getElementById("alt").value);
-
-        // Example regression line equation (will replace with actual model coefficients)
-        let icu_days = (0.029044775719852478 * aptt) + (-0.9991864296384556 * alb) + 
-        (0.008351254739927469 * alt) + (-0.08939127425750719 * sodium) + 15.881580890725147;
-        icu_days = Math.max(0, Math.min(14, icu_days.toFixed(1)));
-
-        document.getElementById("sodiumVal").innerText = sodium;
-        document.getElementById("altVal").innerText = alt;
-        document.getElementById("apttVal").innerText = aptt;
-        document.getElementById("albVal").innerText = alb;
-        document.getElementById("icuPred").innerText = icu_days;
-
-        // Update bar width
-        svg.select(".fillbox")
-        .transition()
-        .duration(500)
-        .attr("width", widthScale(icu_days));
-
-        // Update text position and value
-        label.transition()
-        .duration(500)
-        .attr("x", widthScale(icu_days) + 10)
-        .text(`${icu_days} days`);
+        .attr("class", "label-text")
+        .attr("x", width / 2)
+        .attr("y", height - 20)
+        .attr("text-anchor", "middle")
+        .attr("font-size", "12px")
+        .text("4.7");
+    const ticks = svg.append("g")
+        .attr("transform", `translate(${width / 2}, ${height- 75})`);
+    for (let i = 0; i <= tickCount; i++) {
+        const value = i * 2;
+        const angle = -Math.PI / 2 + (i / tickCount) * Math.PI;
+        const x1 = (radius - 10) * Math.cos(angle);
+        const y1 = (radius - 10) * Math.sin(angle);
+        const x2 = radius * Math.cos(angle);
+        const y2 = radius * Math.sin(angle);
+        ticks.append("line")
+            .attr("x1", x1)
+            .attr("y1", y1)
+            .attr("x2", x2)
+            .attr("y2", y2)
+            .attr("stroke", "black")
+            .attr("stroke-width", 2);
+        ticks.append("text")
+            .attr("x", (radius + 10) * Math.cos(angle))
+            .attr("y", (radius + 10) * Math.sin(angle))
+            .attr("text-anchor", "middle")
+            .attr("font-size", "12px")
+            .text(value)
+            .attr("dy", "0.5em");
     }
+    ticks.attr("transform", `translate(${width / 2}, ${height - 75}) rotate(-90)`);
+    let sodium = parseFloat(document.getElementById("sodium").value);
+    let alb = parseFloat(document.getElementById("alb").value);
+    let aptt = parseFloat(document.getElementById("aptt").value);
+    let alt = parseFloat(document.getElementById("alt").value);
+    document.getElementById("sodiumVal").innerText = sodium;
+    document.getElementById("altVal").innerText = alt;
+    document.getElementById("apttVal").innerText = aptt;
+    document.getElementById("albVal").innerText = alb;
+    let icu_days = (0.029044775719852478 * aptt) + (-0.9991864296384556 * alb) + 
+    (0.008351254739927469 * alt) + (-0.08939127425750719 * sodium) + 15.881580890725147;
+    icu_days = Math.max(0, Math.min(14, icu_days.toFixed(1)));
+    updateDisplay(icuDaysArc, label, radius, icu_days);
 }
+
+// Function to update the display based on the icu_days value
+export function updateDisplay(icuDaysArc, label, radius, icu_days) {
+    const newAngle = (-Math.PI / 2) + (icu_days / 14) * Math.PI;
+    const arcUpdate = d3.arc()
+        .innerRadius(radius - 20)
+        .outerRadius(radius - 5)
+        .startAngle(-Math.PI / 2)
+        .endAngle(newAngle);
+    icuDaysArc.transition()
+        .duration(500)
+        .attrTween("d", function() {
+            const interpolate = d3.interpolateNumber(-Math.PI / 2, newAngle);
+            return function(t) {
+                const angle = interpolate(t);
+                return arcUpdate.endAngle(angle)();
+            };
+        });
+    label.transition()
+        .duration(500)
+        .text(`${icu_days}`);
+}
+
+document.getElementById("sodium").addEventListener("input", createFinalVis);
+document.getElementById("alb").addEventListener("input", createFinalVis);
+document.getElementById("aptt").addEventListener("input", createFinalVis);
+document.getElementById("alt")?.addEventListener("input", createFinalVis);

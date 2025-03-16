@@ -282,4 +282,10 @@ h3 {
 .label-text {
     font-size: 75px;
     transform: translate(15%, -140%);
+    -webkit-transform: translate(65px, -60px);
+}
+
+.tick-text {
+    /* transform: rotate(90deg); */
+    text-orientation: vertical-rl;
 }

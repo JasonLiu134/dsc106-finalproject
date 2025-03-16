@@ -52,6 +52,7 @@ export function createFinalVis() {
             .attr("stroke", "black")
             .attr("stroke-width", 2);
         ticks.append("text")
+            .attr("class", "tick-text")
             .attr("x", (radius + 25) * Math.cos(angle))
             .attr("y", (radius + 25) * Math.sin(angle))
             .attr("text-anchor", "middle")
@@ -93,7 +94,7 @@ export function updateDisplay(icuDaysArc, label, radius, icu_days) {
         });
     label.transition()
         .duration(500)
-        .text(`${icu_days}`);
+        .text(`${icu_days}`)
 }
 
 document.getElementById("sodium").addEventListener("input", createFinalVis);

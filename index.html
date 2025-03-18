@@ -18,6 +18,7 @@
         <div class="largerectangle"></div>
     </div>
     <div id="page1" class="pages">
+        <a class="videolink" href="https://youtu.be/4KRh9fUPLIQ" target="_blank">Click Here: Demo Video</a>
         <div class="itembox">
             <h5 class="titular1">A Dive into Surgery Statistics</h5>
             <h5 class="titular2">What Determines ICU Stays?</h5>
@@ -30,20 +31,26 @@
     <div id="page2" class="pages">
         <h1>Background</h1>
         <div class="itemboxbg">
-            <p class="caption1 bgtext" >
-                Many people are admitted to the ICU every day. In some cases,
-                the patients are able to quickly recover and are discharged soon
+            <p class="caption1 bgtext">
+                Hospitals can be a little nerve-racking when you are sitting on your bed waiting for the 
+                surgery to pass by. Even more nerve-racking when a doctor informs you that you could 
+                potentially be staying in the ICU. How long will you even be there?! How behind will you be on your classes?!
+            </p>
+
+            <p class="caption2 bgtext" >
+                No need to worry too much about your ICU stay. There are many people are admitted to the ICU every 
+                day, and in some cases, the patients are able to quickly recover and are discharged soon
                 after being admitted. 
                 
                 <br> <br>
 
-                There are many factors that could be potential factors for the 
+                There are many factors that could potentially affect the
                 amount of time a person may spend in the ICU. The factors that stand
                 out the most are a person's physical attributes and their Preoperative
                 Conditions when first being admitted to the ICU. 
             </p>
 
-            <p class="caption2 bgtext">
+            <p class="caption3 bgtext">
                 We want to answer the following question: 
                 
                 <br> <br>
@@ -56,7 +63,7 @@
                 If a patient can estimate how long they might spend at the ICU, it might help
                 them with managing their time over the following days. Patients will know
                 how many days to take off work, or gauge the amount of time they will need to 
-                spend recovering.
+                spend recovering. Who knows, this project might come in handy for you one day!
             </p>
         </div>
     </div>
@@ -77,25 +84,41 @@
                 To start, we've created several correlation matrices to see if there are 
                 any potential relationships between the important variables present 
                 in our dataset.
+
+                <br> <br>
+
+                Orange colors represent negative correlation, and blue colors represent positive
+                correlation. The darker the hue, the greater the magnitude, and the lighter colors
+                represent smaller magnitudes (close to 0 correlation).
             </p>
 
             <p class="caption2">
                 There are quite a lot of variables, so we split the overall correlation matrix up
                 into various sections. This first one dives into the relationship between
-                the ICU days and some basic patient information. Feel free to hover over a square
-                to better see which variables are being measured.
+                the ICU days and some basic patient information. Feel free to hover over the squares
+                to clearly see the measured relationships between the variables.
             </p>
 
             <p class="caption3">
                 Next, we looked at the correlations between the ICU days and the Preoperative
                 Conditions of the patients. This one is a lot more messy, and it can be pretty
                 difficult to identify exactly what we're looking for.
+
+                <br> <br>
+
+                Don't worry about trying to understand everything present here; in fact, we also got
+                quite a headache looking at all this data! In the following few steps, we'll explore
+                this data in a more concise manner to help clear things up.
             </p>
 
             <p class="caption4">
                 To start, we've identified a list of variables that have an interesting
-                correlation with the ICU Days. Now, let's dive a bit deeper into these variables
-                and take a closer look at them and why they were chosen in the upcoming section.
+                correlation with the number of ICU Days. We've listed them here, along with their correlation.
+                
+                <br> <br>
+                
+                You're probably wondering how we decided to choose these values. As such, let's now dive a bit deeper 
+                into these variables and take a closer look at why they were selected.
             </p>
 
             <div class="matrixcontainer">
@@ -110,31 +133,43 @@
             <p class="caption1">
                 First, let's take a look at all of the relevant correlations. Since we're trying to
                 understand if we can predict the ICU Days, we'll look at all of the correlations that
-                have to do with this.
+                relate to the number of ICU Days specifically, as shown here.
             </p>
 
             <p class="caption2">
-                We'll pick out the top 7 features with the highest correlation. However, there's more to
-                these features than meets the eye at first glance!
+                We'll pick out the top 7 features with the highest level of correlation. However, 
+                there's more to these features than meets the eye! Do you notice any similarities between some
+                of these preoperative conditions?
             </p>
 
             <p class="caption3">
                 Remember, we plotted everything on a correlation matrix. This means that we're able to see
-                the correlation between these preoperative conditions! And some of these features have very
-                high correlations with each other!
+                the correlation between these preoperative conditions! 
+                
+                <br> <br>
+
+                Some of these features have very high correlations with each other! We've highlighted the ones that 
+                correlate with each other in green and red to help you see which ones they are.
             </p>
 
             <p class="caption4">
                 The two relationships that stand out with having an extremely high correlation with each other
-                are displayed here, with an extremely high correlation of at least 0.6. This is among the highest
-                correlations in the entire data! Since trying to predict ICU days with both of these variables
-                would be redundant, we'll only keep the preoperative condition with a higher correlation with ICU Days.
+                are displayed here, with an extremely high correlation of at least 0.6. This is among the highest 
+                correlations in the entire dataset!
+                
+                <br> <br>
+
+                Trying to predict ICU days with both highly-correlated variables would be redundant, as the information they
+                provide our predictions with is quite similar. This principle is called multicollinearity, and it can cause
+                problems with our prediction model. Thus, we'll only keep the preoperative condition with a higher correlation 
+                with ICU Days (Albumin and AST).
             </p>
 
             <p class="caption5">
-                It seems like all of these are preoperative conditions, which is interesting. We thought we'd
-                see more physical features such as age, height, and weight to be relevant - so next, 
-                we'll take a look at those to see if there really is a correlation between them and the ICU Days!
+                So far, all of the features with high correlation are preoperative conditions, which is really surprising. 
+                We expected more physical features such as age, height, and weight to be relevant as well, but their
+                correlations are quite low. Therefore, we'll take a look at these physical features to see if there 
+                could be a relationship between them and the ICU Days, and understand why the observed correlation is small!
             </p>
 
             <div class="displaybox">
@@ -147,22 +182,47 @@
         <h1>Insight on Physical Attributes</h1>
         <div class="itembox">
             <p class="caption1">
-                Here is a distribution of age when compared to the average ICU Days. Here,
-                we don't really observe a relationship between the two, since both high and 
-                low ages see long ICU stays, while most of the middle ages stays consistently
-                at similar values.
+                Here is a distribution of average age when compared to the average ICU Days. For these line plots, feel free to
+                hover over them to get some more insight at a specific data point!
+
+                <br> <br>
+                We don't really observe a relationship between the two; most of the data
+                is concentrated in older patients (ages 30 - 80), and all of them are somewhat similar, having
+                a mean ICU Stay length of around 0.4 or 0.5 Days. 
+
+                <br> <br>
+
+                The high values in the lower and higher ages are mostly outliers, since there were
+                very few patients recorded with these ages.
             </p>
 
             <p class="caption2">
-                Here is a distribution of height when compared to average ICU Days. The distribution
-                does look like there is a slight relationship, which makes sense given the higher
-                correlation compared to before. However, the relationship still isn't very strong.
+                Here is a distribution of height when compared to average ICU Days. 
+
+                <br> <br>
+
+                Most of the data here is located in the 145 - 180 cm range. Again, the average ICU Days in this range
+                does not change much depending on the age, which makes sense given the low correlation value observed. 
+
+                <br> <br>
+
+                There are some outliers, specifically for patients with low heights. Although this may be relevant for determining
+                potential relationships, there simply isn't enough data regarding these values, leading to the low correlation.
             </p>
 
             <p class="caption3">
-                Here is a distribution of weight when compared to average ICU Days. Similarly to height,
-                the distribution has a slight relationship. However, the correlation is still pretty low,
-                so it seems like weight doesn't have a strong relationship with ICU stay length.
+                Here is a distribution of weight when compared to average ICU Days. 
+                
+                <br> <br>
+
+                The distribution here is very similar to what we noticed with the height, with most of the data located in the
+                40 - 90 kg range, and there doesn't appear to be any patterns here. 
+                
+                <br> <br>
+
+                However, we again notice that there are a few patients with low weights, and they have long ICU stays. 
+                Although this could hint at some kind of relationship existing, this explains why the correlation
+                value we calculated won't be very high, because the amount of low outliers are quite little.
             </p>
         </div>
         <div class="ibargraphs">
@@ -182,8 +242,8 @@
                     <button class="option" data-value="preop_alb">Preop Albumin</button>
                     <button class="option" data-value="preop_na">Preop Sodium</button>
                     <button class="option" data-value="preop_alt">Preop ALT</button>
-                    <button class="option" data-value="preop_gluc">Preop aPTT</button>
-                    <button class="option" data-value="preop_alt">Preop AST</button>
+                    <button class="option" data-value="preop_aptt">Preop aPTT</button>
+                    <button class="option" data-value="preop_ast">Preop AST</button>
                 </div>
                 <div id="chart"></div>
             </div>
@@ -193,29 +253,30 @@
         <h1>Important Findings</h1>
         <div class="itemboxbg">
             <p class="caption1 bgtext" >
-                Now, we have a list of some important Preoperative Conditions that may
+                Our work so far has given us a list of some important Preoperative Conditions that may
                 correlate with ICU Days.
                 
                 <br> <br>
 
-                The main factors that we found had high correlation with ICU Days and not with 
-                another preoperative condition were Albumin, AST, aPTT, and Sodium. Based on these values, 
-                we might be able to predict the length of a patient's potential length of ICU stay.
+                To Recap: The main factors that we found had high correlation with ICU Days and not with 
+                another preoperative condition were Albumin, AST, aPTT, and Sodium. Based on these chosen values, 
+                we might be able to predict the length of a patient's potential ICU stay.
 
             </p>
 
             <p class="caption2 bgtext">
-                There are also some physical factors that we found were not as relevant.
+                There are also some physical factors that we found were not as relevant. This was a surprising discovery
+                for us, since we expected to see a high correlation between age, height, and weight and the ICU Days. 
                 
                 <br> <br>
                 
-                Specifically, it appears like age, height, and weight aren't very relevant
-                to the length of a patient's ICU stay. Of these features, height plays the biggest
-                factor, but it's still not extremely relevant when it comes to making predictions.
+                Of these features, height had the strongest correlation, but it's still not extremely relevant when it comes to 
+                making predictions, according to our calculations. 
+                However, this result could be due to limitations in our dataset - further study could yield some more interesting findings!
             </p>
 
             <p class="caption3 bgtext">
-                Why don't we try to make a simple linear regression models using the relevant
+                For now though, why don't we try to make a simple linear regression model using the relevant
                 features that we found? Let's see how it looks!
             </p>
         </div>

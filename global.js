@@ -17,7 +17,7 @@ let lastPageUpdate = 0;
 
 const squareScale = d3.scaleLinear().domain([0, 100]).range([0, 600]).clamp(true).interpolate((a, b) => (t) => a + (b - a) * t * t);
 const squareScaleSmall = d3.scaleLinear().domain([0, 50]).range([0, 300]).clamp(true).interpolate((a, b) => (t) => a + (b - a) * t * t);
-const scrollStates = [0, 1, 2, 4, 5, 4, 1, 3, 1];
+const scrollStates = [0, 1, 3, 4, 5, 3, 1, 3, 1];
 const bgcolors = ['blank', 'aliceblue', 'ivory', 'lavender', 'beige', 'honeydew', 'papayawhip', 'lavenderblush', 'whitesmoke'];
 
 window.onload = function() {
@@ -252,20 +252,33 @@ function changePageState(mode) {
     if (currentPage === 2) {
         if (currentScrollState === 1) {
             const fadeIn = d3.select(`#page2 .caption1`);
-            const fadeOut = d3.select(`#page2 .caption2`);
             if (mode === 'down') {
+                const fadeOut = d3.select(`#page2 .caption2`);
                 fadeInOut(fadeIn, fadeOut);
             } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page2 .caption2`);
                 fadeOutIn(fadeIn, fadeOut);
             }
         }
 
         if (currentScrollState === 2) {
             const fadeIn = d3.select(`#page2 .caption2`);
-            const fadeOut = d3.select(`#page2 .caption1`);
             if (mode === 'down') {
+                const fadeOut = d3.select(`#page2 .caption1`);
                 fadeInOut(fadeIn, fadeOut);
             } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page2 .caption3`);
+                fadeOutIn(fadeIn, fadeOut);
+            }
+        }
+
+        if (currentScrollState === 3) {
+            const fadeIn = d3.select(`#page2 .caption3`);
+            if (mode === 'down') {
+                const fadeOut = d3.select(`#page2 .caption2`);
+                fadeInOut(fadeIn, fadeOut);
+            } else if (mode === 'up') {
+                const fadeOut = d3.select(`#page2 .caption2`);
                 fadeOutIn(fadeIn, fadeOut);
             }
         }
@@ -501,11 +514,11 @@ function fadeOutIn(fadeIn, fadeOut) {
 
 function activatePageState() {
     if (currentPage === 4) {
-        changeCorrDisplay2(1);
+        changeCorrDisplay2(0);
     }
 
     if (currentPage === 5) {
-        createBVis(1);
+        createBVis(0);
     }
 
     if (currentPage === 6) {

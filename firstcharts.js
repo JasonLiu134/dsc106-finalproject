@@ -1,3 +1,4 @@
+let initialLoad = 0;
 const features = [
     'age', 'height', 'weight'
 ];
@@ -7,6 +8,11 @@ let feature_full = {
     'height': 'Patient Height (cm)',
     'weight': 'Patient Weight (kg)',
 }
+
+const colormap = 
+    {'age': '#8014af',
+    'height': '#cc4949',
+    'weight': '#1867cd'};
 
 // Load and process CSV data
 async function fetchData() {
@@ -38,45 +44,71 @@ async function updateChart(feature) {
 
     d3.select("#bchart").selectAll("svg").remove();
     
-    const svg = d3.select("#bchart")
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height);
-
     const xScale = d3.scaleLinear()
         .range([margin.left, width - margin.right]);
     
     const yScale = d3.scaleLinear()
         .range([height - margin.bottom, margin.top]);
 
+    const svg = d3.select("#bchart")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
     // Axes groups
     svg.selectAll("g").remove();
 
-    const xAxis = svg.append("g").attr("transform", `translate(0,${height - margin.bottom})`);
-    const yAxis = svg.append("g").attr("transform", `translate(${margin.left},0)`);
+    // const xAxis = svg.append("g").attr("transform", `translate(0,${height - margin.bottom})`);
+    // const yAxis = svg.append("g").attr("transform", `translate(${margin.left},0)`);
 
     // Generate bins based on the feature value
     const binGenerator = d3.bin()
     .domain(d3.extent(filteredData, d => d[feature]))
-    .thresholds(100);
+    .thresholds(50);
 
     const bins = binGenerator(filteredData.map(d => d[feature]));
 
-    // Calculate mean of icu_days per bin
+    // Calculate mean ICU days and margin of error
     bins.forEach(bin => {
-        console.log(filteredData.filter(d => d[feature] >= bin.x0 && d[feature] < bin.x1),
-        d => d.icu_days);
-        bin.meanIcuDays = d3.mean(
-        filteredData.filter(d => d[feature] >= bin.x0 && d[feature] < bin.x1),
-        d => d.icu_days
-    ) || 0; // Default to 0 if no data in the bin
+        const values = filteredData.filter(d => d[feature] >= bin.x0 && d[feature] < bin.x1).map(d => d.icu_days);
+        const mean = d3.mean(values) || 0;
+        const stdDev = d3.deviation(values) || 0;
+        const n = values.length || 1;  // Prevent division by zero
+
+        bin.meanIcuDays = mean;
+        bin.moeUpper = mean + stdDev; // Upper bound
+        bin.moeLower = Math.max(0, mean - stdDev); // Lower bound (ensure non-negative ICU days)
+        bin.count = n;
     });
 
+    //Sets the domain of the x and yscales
     xScale.domain([d3.min(bins, d => d.x0), d3.max(bins, d => d.x1)]);
-    yScale.domain([0, d3.max(bins, d => d.meanIcuDays)]).nice();
+    yScale.domain([0, d3.max(bins, d => d.moeUpper)]).nice();
 
     // Remove old axes and labels
-    svg.selectAll(".x-axis, .y-axis, .x-label, .y-label, .chart-title").remove();
+    svg.selectAll(".grid, .x-axis, .y-axis, .x-label, .y-label, .chart-title, .line, .moe").remove();
+
+    // X Gridlines
+    svg.append("g")
+        .attr("class", "grid")
+        .attr("transform", `translate(0,${height - margin.bottom})`)
+        .attr("stroke", "gray")
+        .attr("stroke-opacity", 0.1)
+        .call(d3.axisBottom(xScale)
+            .tickSize(-height + margin.top + margin.bottom)
+            .tickFormat("")
+        );
+
+    // Y Gridlines
+    svg.append("g")
+        .attr("class", "grid")
+        .attr("transform", `translate(${margin.left},0)`)
+        .attr("stroke", "gray")
+        .attr("stroke-opacity", 0.1)
+        .call(d3.axisLeft(yScale)
+            .tickSize(-width + margin.left + margin.right)
+            .tickFormat("")
+        );
 
     // Append X-axis
     svg.append("g")
@@ -97,7 +129,7 @@ async function updateChart(feature) {
         .attr("y", height - 10)
         .attr("text-anchor", "middle")
         .style("font-size", "14px")
-        .text(`${feature_full[feature]}`);
+        .text(`Mean Distribution of ${feature_full[feature]}`);
 
     // Append Y-axis label
     svg.append("text")
@@ -119,31 +151,171 @@ async function updateChart(feature) {
         .style("font-weight", "bold")
         .text(`Mean Histogram of ${feature_full[feature]}`);
 
-    // Bind data to bars
-    const bars = svg.selectAll(".bar").data(bins);
+    // Area generator for margin of error
+    const area = d3.area()
+        .x(d => xScale(d.x0))
+        .y0(d => yScale(d.moeLower))
+        .y1(d => yScale(d.moeUpper)); // Smooth curve
 
-    bars.enter()
-    .append("rect")
-    .attr("class", "bar")
-    .attr("x", d => xScale(d.x0))
-    .attr("y", height - margin.bottom) // Start from the bottom
-    .attr("height", 0) // Start with no height
-    .attr("width", d => xScale(d.x1) - xScale(d.x0) - 1)
-    .attr("fill", "steelblue")
-    .merge(bars)
-    .transition().duration(800)
-    .attr("x", d => xScale(d.x0))
-    .attr("y", d => yScale(d.meanIcuDays))
-    .attr("height", d => Math.max(0, yScale(0) - yScale(d.meanIcuDays))); // Fix height calculation
+    // Append or update confidence interval area
+    const areaPath = svg.selectAll(".area").data([bins]);
 
+    areaPath.enter()
+        .append("path")
+        .attr("class", "area")
+        .attr("fill", colormap[feature])
+        .attr("opacity", 0)
+        .attr("d", area)
+        .attr("stroke-dasharray", function() { return this.getTotalLength(); })
+        .attr("stroke-dashoffset", function() { return this.getTotalLength(); })
+        .transition().duration(1000)
+        .attr("opacity", 0.2)
+        .attr("stroke-dashoffset", 0);
 
-    bars.exit()
+    areaPath.transition().duration(1000)
+        .attr("d", area);
+
+    areaPath.exit().transition().duration(800).attr("opacity", 0).remove();
+    const dots = svg.selectAll(".dots").data(bins);
+
+    // Enter phase: Add new dots
+    dots.enter()
+        .append('circle')
+        .attr("class", "dots")
+        .attr('cx', (d) => xScale(d.x0))
+        .attr('cy', height - margin.bottom) // Start from bottom
+        .attr('r', 3)
+        .attr("fill", colormap[feature])
+        .transition().duration(1000) // Smooth transition
+        .attr('cy', (d) => yScale(d.meanIcuDays));
+
+    // Update phase: Animate position change
+    dots.transition().duration(1000)
+        .attr('cx', (d) => xScale(d.x0))
+        .attr('cy', (d) => yScale(d.meanIcuDays));
+
+    // Line Animation
+    const line = d3.line()
+        .x(d => xScale(d.x0))
+        .y(d => yScale(d.meanIcuDays));
+
+    const path = svg.selectAll(".line").data([bins]);
+
+    // Enter phase: Append the path and animate drawing
+    path.enter()
+        .append('path')
+        .attr("class", "line")
+        .attr("fill", "none")
+        .attr("stroke", colormap[feature])
+        .attr("stroke-width", 1.5)
+        .attr("d", line(bins))
+        .attr("stroke-dasharray", function() { 
+            const length = this.getTotalLength();
+            return `${length} ${length}`;
+        })
+        .attr("stroke-dashoffset", function() { 
+            return this.getTotalLength();
+        })
+        .transition().duration(1000)
+        .attr("stroke-dashoffset", 0);
+
+    // Update phase: Smoothly transition to new line
+    path.transition().duration(1000)
+        .attr("d", line(bins));
+
+    // Exit phase: Fade out old paths
+    path.exit()
         .transition().duration(800)
-        .attr("y", height - margin.bottom)
-        .attr("height", 0)
+        .attr("opacity", 0)
         .remove();
+
+    const tooltip = d3.select("#bchart")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("background", "rgba(0, 0, 0, 0.7)")
+        .style("color", "white")
+        .style("padding", "8px")
+        .style("border-radius", "5px")
+        .style("font-size", "12px")
+        .style("pointer-events", "none")
+        .style("display", "none");
+    
+    // Append a foreignObject for legend inside the SVG
+    const legend = svg.append("foreignObject")
+        .attr("width", 150)
+        .attr("height", 100)
+        .style("pointer-events", "none") // Prevents blocking mouse events
+        .append("xhtml:div")
+        .attr("class", "legend")
+        .style("position", "absolute")
+        .style("background", "white")
+        .style("border", "1px solid #ccc")
+        .style("padding", "6px")
+        .style("border-radius", "5px")
+        .style("font-size", "12px")
+        .style("display", "none");
+
+    // Function to update legend dynamically
+    function updateLegend(bin, mouseX) {
+        svg.selectAll('.highlight-line').remove();
+        const chartWidth = width; // Use the SVG chart width
+        const rightSide = mouseX < chartWidth / 2; // Decide position based on mouse location
+
+        let legendX = rightSide ? width - 160 : 50; // Position inside chart
+        let legendY = 35; // Always at the top
+
+        legend.style("display", "block")
+            .html(`
+                <strong>Legend</strong><br/>
+                Value: ${d3.format(".2f")(bin.x0)}<br/>
+                Mean ICU Days: ${d3.format(".2f")(bin.meanIcuDays)}<br/>
+                Upper Error Margin: ${d3.format(".2f")(bin.moeUpper)}<br/>
+                Lower Error Margin: ${d3.format(".2f")(bin.moeLower)}<br/>
+                Count: ${bin.count}
+            `);
+
+        // Move the legend inside the SVG
+        legend.node().parentNode.setAttribute("x", legendX);
+        legend.node().parentNode.setAttribute("y", legendY);
+
+        const highlightLine = svg.append('line')
+            .attr('stroke', 'black')
+            .attr('stroke-width', 1)
+            .attr('stroke-dasharray', '4')
+            .attr('x1', xScale(bin.x0))
+            .attr('x2', xScale(bin.x0))
+            .attr('y1', margin.top)
+            .attr('y2', height - margin.bottom)
+            .attr('class', 'highlight-line');
+    }
+
+    svg.append("rect")
+    .attr("class", "overlay")
+    .attr("width", width)
+    .attr("height", height)
+    .style("opacity", 0) // Transparent but responsive
+    .on("mousemove", function(event) {
+        const mouseX = d3.pointer(event)[0];
+        const closestBin = bins.reduce((a, b) => 
+            Math.abs(xScale(a.x0) - mouseX) < Math.abs(xScale(b.x0) - mouseX) ? a : b
+        );
+        
+        updateLegend(closestBin, mouseX);
+    })
+    .on("mouseout", function() {
+        svg.selectAll('.highlight-line').remove();
+        legend.style("display", "none");
+    });
 }
 
 export function createBVis(featureNum){
-    updateChart(features[featureNum - 1]);
+    if (featureNum != 0) {
+        updateChart(features[featureNum - 1]);
+    } else {
+        if (initialLoad === 0) {
+            updateChart(features[0]);
+            initialLoad = 1;
+        }
+    }
 }

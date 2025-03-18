@@ -1,7 +1,14 @@
 let data1 = [];
 let data2 = [];
 const scaleFactor = 0.8;
-const colorScale = d3.scaleSequential(d3.interpolateRdYlBu).domain([-1, 1]);
+function colorScale(c) {
+  if (c < 0) {
+    return d3.scaleSequential(d3.interpolateOranges).domain([0, 1])(-c)
+  } else {
+    return d3.scaleSequential(d3.interpolateBlues).domain([0, 1.25])(c)
+  }
+}
+let initialLoad = 0;
 
 async function fetchCorrData(filepath) {
     const load = await d3.csv(filepath);
@@ -9,10 +16,10 @@ async function fetchCorrData(filepath) {
 }
 
 async function createPart1() {
-    const nameLabels = ['Age', 'Sex', 'Height', 'Weight', 'BMI', 'Emergen. Op.', 'Operation', 'Diagnosis', 
+    const nameLabels = ['    Age', '    Sex', '   Height', '   Weight', '   BMI', 'Emergen. Op.', 'Operation', 'Diagnosis', 
     'Anesthesia', 'Mortality', 'Hypertension', 'Diabetes', 'ECG', 'Pulm. Function', 'Hemoglobin', 'Platelet Count',
-    'Phys. Therapy', '    aPTT', 'Sodium', 'Potassium', 'Glucose', 'Albumin', 'Aspartate Amino.', 'Alanine Amino.',
-    'BUN', 'Creatinine', '       pH', 'Bicarbonate', 'Base Excess', 'Partial O2 Pressure', 'Partial CO2 Pressure', 'O2 Saturation'];
+    'Phys. Therapy', '    aPTT', '  Sodium', '  Potassium', '  Glucose', 'Albumin', 'Aspartate Amino.', 'Alanine Amino.',
+    '   BUN', 'Creatinine', '       pH', '  Bicarbonate', 'Base Excess', 'Partial O2 Pressure', 'Partial CO2 Pressure', 'O2 Saturation'];
 
     data1 = await fetchCorrData('datasets\\basic.csv');
     data2 = await fetchCorrData('datasets\\preop.csv');
@@ -26,7 +33,7 @@ async function createPart1() {
     const svg = d3
     .select('#displaythings')
     .append('svg')
-    .attr('viewBox', `-40, -20, 100, 100`)
+    .attr('viewBox', `-30, -20, 100, 100`)
     .attr('width', 250)
     .attr('height', 250)
     .style('overflow', 'visible');
@@ -140,10 +147,15 @@ async function createPart3() {
             const idx = Object.keys(filtotal).indexOf(key);
             let cola = colorScale(value);
             const aknum = (Math.round(parseFloat(value) * 10000) / 10000).toFixed(2);
-            if (aknum === '-0.17' || aknum === '0.27' || aknum === '0.18'|| aknum === '-0.18') {
-                cola = "#FFFFFF";
-            }
-            svg.append("rect")
+            if (aknum === '-0.17' || aknum === '0.27') {
+              svg.append("rect")
+              .attr("x", `${idx * 60 - Math.floor(idx / 4) * 200 - 2}`)
+              .attr("y", `${Math.floor(idx / 4) * 50 + 50 - 2}`)
+              .attr("height", "29")
+              .attr("width", "29")
+              .attr("fill", "#4bee40");
+
+              svg.append("rect")
                 .attr("x", `${idx * 60 - Math.floor(idx / 4) * 200}`)
                 .attr("y", `${Math.floor(idx / 4) * 50 + 50}`)
                 .attr("height", "25")
@@ -151,18 +163,71 @@ async function createPart3() {
                 .attr("fill", cola)
                 .attr("stroke", "black");
 
-            svg.append("text")
+              svg.append("text")
                 .attr("x", `${idx * 60 - 5 - Math.floor(idx / 4) * 200}`)
                 .attr("y", `${Math.floor(idx / 4) * 50 + 45}`)
                 .attr("font-size", "0.3em")
                 .attr("class", "filxtext")
                 .text(nameLabels[idx]);
 
-            svg.append("text")
+              svg.append("text")
+                .attr("x", `${idx * 60 + 5 - Math.floor(idx / 4) * 200}`)
+                .attr("y", `${Math.floor(idx / 4) * 50 + 65}`)
+                .attr("font-size", "0.5em")
+                .text((Math.round(parseFloat(value) * 10000) / 10000).toFixed(2));
+            } else if (aknum === '0.18'|| aknum === '-0.18') {
+              svg.append("rect")
+                .attr("x", `${idx * 60 - Math.floor(idx / 4) * 200 - 2}`)
+                .attr("y", `${Math.floor(idx / 4) * 50 + 50 - 2}`)
+                .attr("height", "29")
+                .attr("width", "29")
+                .attr("fill", "#ee4040");
+
+              svg.append("rect")
+                .attr("x", `${idx * 60 - Math.floor(idx / 4) * 200}`)
+                .attr("y", `${Math.floor(idx / 4) * 50 + 50}`)
+                .attr("height", "25")
+                .attr("width", "25")
+                .attr("fill", cola)
+                .attr("stroke", "black");
+
+              svg.append("text")
+                .attr("x", `${idx * 60 - 5 - Math.floor(idx / 4) * 200}`)
+                .attr("y", `${Math.floor(idx / 4) * 50 + 45}`)
+                .attr("font-size", "0.3em")
+                .attr("class", "filxtext")
+                .text(nameLabels[idx]);
+
+              svg.append("text")
+                .attr("x", `${idx * 60 + 5 - Math.floor(idx / 4) * 200}`)
+                .attr("y", `${Math.floor(idx / 4) * 50 + 65}`)
+                .attr("font-size", "0.5em")
+                .text((Math.round(parseFloat(value) * 10000) / 10000).toFixed(2));
+            } else {
+              svg.append("rect")
+                .attr("x", `${idx * 60 - Math.floor(idx / 4) * 200}`)
+                .attr("y", `${Math.floor(idx / 4) * 50 + 50}`)
+                .attr("height", "25")
+                .attr("width", "25")
+                .attr("fill", cola)
+                .attr("stroke", "black")
+                .attr("opacity", 0.7);
+
+              svg.append("text")
+                .attr("x", `${idx * 60 - 5 - Math.floor(idx / 4) * 200}`)
+                .attr("y", `${Math.floor(idx / 4) * 50 + 45}`)
+                .attr("font-size", "0.3em")
+                .attr("class", "filxtext")
+                .text(nameLabels[idx])
+                .attr("opacity", 0.7);
+
+              svg.append("text")
                 .attr("x", `${idx * 60 + 5 - Math.floor(idx / 4) * 200}`)
                 .attr("y", `${Math.floor(idx / 4) * 50 + 65}`)
                 .attr("font-size", "0.5em")
                 .text((Math.round(parseFloat(value) * 10000) / 10000).toFixed(2))
+                .attr("opacity", 0.7);
+            }
         }
     });
 }
@@ -374,5 +439,12 @@ export function changeCorrDisplay2(pageNum) {
             removal.style('opacity', `${opacityChange}%`);
           }
         }, 1); 
+      }
+
+      if (pageNum === 0) {
+        if (initialLoad === 0) {
+          createPart1();
+          initialLoad = 1;
+        }
       }
   }

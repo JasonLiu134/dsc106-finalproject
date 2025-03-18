@@ -2,30 +2,36 @@ document.addEventListener('DOMContentLoaded', function () {
     createFinalVis();
 });
 
+const colorScale = d3.scaleLinear().domain([0, 14]).range(["#0085ff", "#ff7b00"]).interpolate(d3.interpolateLab);
+
 export function createFinalVis() {
     d3.select('#fin').selectAll("svg").remove();
     const width = 500, height = 50, radius = 200;
     const tickCount = 7;
+
     const svg = d3.select('#fin')
         .append('svg')
         .attr('width', width)
         .attr('height', height)
         .attr('viewBox', `0 0 ${width} ${height}`)
         .style('overflow', 'visible');
+
     const arc = d3.arc()
         .innerRadius(radius - 30) 
         .outerRadius(radius)
         .startAngle(-Math.PI / 2)
         .endAngle(Math.PI / 2);
+
     svg.append("path")
         .attr("d", arc)
         .attr("fill", "white")
         .attr("transform", `translate(${width / 2 + 75}, ${height - 75})`)
         .attr("stroke", "black") 
         .attr("stroke-width", 3);
+
     const icuDaysArc = svg.append("path")
-        .attr("fill", "blue")
         .attr("transform", `translate(${width / 2 + 75}, ${height - 75})`);
+
     const label = svg.append("text")
         .attr("class", "label-text")
         .attr("x", width / 2)
@@ -33,8 +39,9 @@ export function createFinalVis() {
         .attr("text-anchor", "middle")
         .attr("font-size", "12px")
         .text("4.7");
-    const ticks = svg.append("g")
-        .attr("transform", `translate(${width / 2 + 75}, ${height - 75})`);
+
+    const ticks = svg.append("g").attr("transform", `translate(${width / 2 + 75}, ${height - 75})`);
+
     for (let i = 0; i <= tickCount; i++) {
         const value = i * 2;
         const angle = -Math.PI / 2 + (i / tickCount) * Math.PI;
@@ -44,6 +51,7 @@ export function createFinalVis() {
         const y1 = tickStart * Math.sin(angle);
         const x2 = tickEnd * Math.cos(angle);
         const y2 = tickEnd * Math.sin(angle);
+
         ticks.append("line")
             .attr("x1", x1)
             .attr("y1", y1)
@@ -51,7 +59,8 @@ export function createFinalVis() {
             .attr("y2", y2)
             .attr("stroke", "black")
             .attr("stroke-width", 2);
-        ticks.append("text")
+
+        const text = ticks.append("text")
             .attr("class", "tick-text")
             .attr("x", (radius + 25) * Math.cos(angle))
             .attr("y", (radius + 25) * Math.sin(angle))
@@ -59,18 +68,25 @@ export function createFinalVis() {
             .attr("font-size", "12px")
             .attr("dy", "0.5em")
             .text(value);
+        
+        text.attr("transform", `rotate(90 ${(radius + 25) * Math.cos(angle)} ${(radius + 25) * Math.sin(angle)})`)
     }
+
     ticks.attr("transform", `translate(${width / 2 + 75}, ${height - 75}) rotate(-90)`);
+
     let sodium = parseFloat(document.getElementById("sodium").value);
     let alb = parseFloat(document.getElementById("alb").value);
     let aptt = parseFloat(document.getElementById("aptt").value);
     let alt = parseFloat(document.getElementById("alt").value);
+
     document.getElementById("sodiumVal").innerText = sodium;
     document.getElementById("altVal").innerText = alt;
     document.getElementById("apttVal").innerText = aptt;
     document.getElementById("albVal").innerText = alb;
+
     let icu_days = (0.029044775719852478 * aptt) + (-0.9991864296384556 * alb) + 
     (0.008351254739927469 * alt) + (-0.08939127425750719 * sodium) + 15.881580890725147;
+
     icu_days = Math.max(0, Math.min(14, icu_days.toFixed(1)));
     updateDisplay(icuDaysArc, label, radius, icu_days);
 }
@@ -83,6 +99,9 @@ export function updateDisplay(icuDaysArc, label, radius, icu_days) {
         .outerRadius(radius - 8)
         .startAngle(-Math.PI / 2)
         .endAngle(newAngle);
+    
+    icuDaysArc.attr("fill", colorScale(icu_days));
+
     icuDaysArc.transition()
         .duration(500)
         .attrTween("d", function() {
@@ -92,6 +111,7 @@ export function updateDisplay(icuDaysArc, label, radius, icu_days) {
                 return arcUpdate.endAngle(angle)();
             };
         });
+
     label.transition()
         .duration(500)
         .text(`${icu_days}`)

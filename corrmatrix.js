@@ -1,6 +1,13 @@
 let data = [];
 const scaleFactor = 0.8;
-const colorScale = d3.scaleSequential(d3.interpolateRdYlBu).domain([-1, 1]);
+// const colorScale = d3.scaleSequential(d3.interpolateRdYlBu).domain([-1, 1]);
+function colorScale(c) {
+  if (c < 0) {
+    return d3.scaleSequential(d3.interpolateOranges).domain([0, 1])(-c)
+  } else {
+    return d3.scaleSequential(d3.interpolateBlues).domain([0, 1.25])(c)
+  }
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     createInitialRectangle();
@@ -186,7 +193,6 @@ async function createPreopCorr() {
       .attr('height', 250)
       .style('overflow', 'visible');
 
-  const colorScale = d3.scaleSequential(d3.interpolateRdYlBu).domain([-1, 1]);
   allData.forEach(function(cell) {
       svg.append("rect")
       .attr("x", `${cellSize * cell.colIndex * scaleFactor}`)

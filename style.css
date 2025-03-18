@@ -93,9 +93,10 @@ p {
 }
 
 .output {
-    width: 73%;
+    font-size: 2em;
+    width: 83%;
     position: absolute;
-    top: -525%;
+    top: -575%;
     text-align: center;
     /* padding: 1em; */
 }
@@ -123,12 +124,9 @@ p {
     pointer-events: auto; 
 }
 
-#buttons:hover {
-    color: white;
-    cursor: pointer;
-    z-index: 11; 
-    pointer-events: auto; 
-  }
+#buttons {
+    margin-left: 8.5%;
+}
 
 .largerectangle, .rectangle {
     pointer-events: none;
@@ -164,6 +162,7 @@ p {
     margin-left: 50%;
     width: 700px;
     height: 447px;
+    z-index: 11;
 }
 
 .corrlabel {
@@ -265,12 +264,13 @@ h3 {
     margin-left: 50%;
     width: 700px;
     height: 447px;
+    z-index: 11;
 }
 
 .displaybox {
     position: absolute;
     margin-top: -3%;
-    margin-left: 52%;
+    margin-left: 42%;
     width: 40%;
     height: 40%;
 }
@@ -288,4 +288,69 @@ h3 {
 .tick-text {
     /* transform: rotate(90deg); */
     text-orientation: vertical-rl;
+}
+
+.option {
+    background-color: white;
+}
+
+.option:hover {
+    background-color: lightgray;
+    transition-duration: 0.2s;
+}
+
+.option[data-value="preop_hb"] {
+    border-color: #973333;
+}
+.option.current[data-value="preop_hb"] {
+    color: white;
+    background-color: #973333;
+}
+
+.option[data-value="preop_alb"] {
+    border-color: #1867cd;
+}
+.option.current[data-value="preop_alb"] {
+    color: white;
+    background-color: #1867cd;
+}
+
+.option[data-value="preop_na"] {
+    border-color: #5a5a5a;
+}
+.option.current[data-value="preop_na"] {
+    color: white;
+    background-color: #5a5a5a;
+}
+
+.option[data-value="preop_alt"] {
+    border-color: #1a8737;
+}
+.option.current[data-value="preop_alt"] {
+    color: white;
+    background-color: #1a8737;
+}
+
+.option[data-value="preop_aptt"] {
+    border-color: #8014af;
+}
+.option.current[data-value="preop_aptt"] {
+    color: white;
+    background-color: #8014af;
+}
+
+.option[data-value="preop_ast"] {
+    border-color: #854f0e;
+}
+.option.current[data-value="preop_ast"] {
+    color: white;
+    background-color: #854f0e;
+}
+
+.videolink {
+    font-size: 1.5em;
+    color:#f53558;
+    text-decoration: none;
+    z-index: 200;
+    pointer-events: auto; 
 }

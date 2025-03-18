@@ -149,7 +149,7 @@ async function updateChart(feature) {
         .attr("text-anchor", "middle")
         .style("font-size", "18px")
         .style("font-weight", "bold")
-        .text(`Mean Histogram of ${feature_full[feature]}`);
+        .text(`Mean Graph of ${feature_full[feature]}`);
 
     // Area generator for margin of error
     const area = d3.area()

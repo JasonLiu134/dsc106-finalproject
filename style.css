@@ -349,8 +349,13 @@ h3 {
 
 .videolink {
     font-size: 1.5em;
-    color:#f53558;
+    color: rgb(0, 0, 0);
     text-decoration: none;
-    z-index: 200;
-    pointer-events: auto; 
+    position: absolute;
+    margin-top: -13.5%;
+    margin-left: 1%;
+    border: 2px solid rgb(0, 0, 0);
+    padding: 0.2em;
+    z-index: 12;
+    background: rgb(216, 246, 250);
 }
